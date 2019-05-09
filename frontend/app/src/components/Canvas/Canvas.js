@@ -4,7 +4,7 @@ import server from 'socket.io-client';
 
 class Canvas extends Component {
   canvasDrawing= () => {
-    var io = server('http://localhost');
+    var io = server('http://localhost:8080');
     //initial settings
     var mouse = { 
       click: false,
@@ -49,9 +49,12 @@ class Canvas extends Component {
     }
     mainLoop();
   }
+  componentDidMount(){
+    this.canvasDrawing()
+  }
   render() {
     return (
-      <div className="Canvas" onLoad={this.canvasDrawing.bind(this)}>
+      <div className="Canvas" >
         <canvas id="drawing"></canvas>
       </div>
     );
