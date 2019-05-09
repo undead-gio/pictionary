@@ -5,6 +5,7 @@ import server from 'socket.io-client';
 class Canvas extends Component {
   canvasDrawing= () => {
     var io = server('http://localhost');
+    //initial settings
     var mouse = { 
       click: false,
       move: false,
@@ -16,8 +17,10 @@ class Canvas extends Component {
     var width   = window.innerWidth;
     var height  = window.innerHeight;
     var socket  = io.connect()
+    //setting canvas in full mode
     canvas.width = width;
     canvas.height = height;
+    //write on canvas
     canvas.onmousedown = function(e){ mouse.click = true; };
     canvas.onmouseup = function(e){ mouse.click = false; };
     canvas.onmousemove = function(e) {
@@ -25,6 +28,7 @@ class Canvas extends Component {
         mouse.pos.y = e.clientY / height;
         mouse.move = true;
     };
+    //receive data from server
     socket.on('draw', function (data) {
         var line = data.line;
         context.beginPath();
@@ -32,6 +36,7 @@ class Canvas extends Component {
         context.lineTo(line[1].x * width, line[1].y * height);
         context.stroke();
     });
+    //magic!
     function mainLoop() {
       // check if the user is drawing
       if (mouse.click && mouse.move && mouse.pos_prev) {
@@ -46,7 +51,7 @@ class Canvas extends Component {
   }
   render() {
     return (
-      <div className="Canvas" >
+      <div className="Canvas" onLoad={this.canvasDrawing.bind(this)}>
         <canvas id="drawing"></canvas>
       </div>
     );
