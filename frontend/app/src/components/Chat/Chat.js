@@ -30,10 +30,16 @@ class MsgReceiver extends Component {
     super(props);
     this.state = {
       open: false,
+      message: 'No Message',
     };
   }
   handleClick = () => {
-    this.props.enqueueSnackbar('Message');
+    this.props.enqueueSnackbar(this.state.message);
+  };
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
   };
   render() {
     return (
@@ -46,6 +52,7 @@ class MsgReceiver extends Component {
             style={{ margin: 8 }}
             margin="normal"
             variant="outlined"
+            onChange={this.handleChange('message')}
             className={this.props.classes.textBar}
             InputLabelProps={{
               shrink: true,
