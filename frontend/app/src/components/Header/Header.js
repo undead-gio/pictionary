@@ -6,15 +6,15 @@ import Typography from '@material-ui/core/Typography';
 class Header extends Component {
   render() {
     return (
-        <div className="Header">
-            <AppBar position="static" color="default">
+        <React.Fragment>
+            <AppBar position="fixed" color="primary">
                 <Toolbar>
                     <Typography variant="h6" color="inherit">
                         Soctionary
                     </Typography>
                 </Toolbar>
             </AppBar>
-        </div>
+        </React.Fragment>
     );
   }
 }
