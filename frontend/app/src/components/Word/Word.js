@@ -56,7 +56,7 @@ const WinWord = withStyles(styles)(withSnackbar(WordReceiver));
 function Word({ socket }) {
   return (
     <SnackbarProvider
-      maxSnack="1"
+      maxSnack={1}
       dense
       hideIconVariant
     >
