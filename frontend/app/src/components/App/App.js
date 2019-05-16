@@ -4,6 +4,7 @@ import Canvas from '../Canvas/Canvas';
 import Chat from '../Chat/Chat';
 import UserList from '../UserList/UserList';
 import Word from '../Word/Word';
+import Timer from '../Timer/Timer'
 import Header from '../Header/Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './App.scss'
@@ -18,7 +19,7 @@ const theme = createMuiTheme({
       anchorOriginBottomLeft:{
         marginBottom:'10%',
       }
-    } 
+    }
   }
 });
 //connection to socket
@@ -30,6 +31,10 @@ class App extends Component {
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
           <Header />
+          <Timer 
+            socket={socket} 
+            user={1}
+          />
           <Word  
             socket={socket} 
             user={1}  
