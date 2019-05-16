@@ -36,7 +36,7 @@ class WordReceiver extends Component {
     });
     }
     socket.on('chat message', function (msg) {
-      receiveMsg((msg.username+' / '+msg.message))
+      receiveMsg((msg.username))
     })
   }
   componentDidMount(){
