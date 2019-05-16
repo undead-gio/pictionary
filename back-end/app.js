@@ -27,7 +27,7 @@ io.on('connection', function (socket) {
   // list of connected user
   let connectedUsersArray = Object.keys(io.sockets.sockets);
   // assign random username to new connected user
-  socket.username = NAME[Math.floor(Math.random() * NAMES.length];
+  socket.username = NAME[Math.floor(Math.random() * NAMES.length)];
   // emit with socket the list of connected user
   socket.broadcast.emit('connect', { totUser: connectedUsersArray.length });
 
