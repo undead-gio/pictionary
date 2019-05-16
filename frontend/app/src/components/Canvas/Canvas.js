@@ -4,7 +4,6 @@ import server from 'socket.io-client';
 
 class Canvas extends Component {
   canvasDrawing= () => {
-    var io = server('http://localhost:8080');
     //initial settings
     var mouse = { 
       click: false,
@@ -16,7 +15,7 @@ class Canvas extends Component {
     var context = canvas.getContext('2d');
     var width   = window.innerWidth;
     var height  = window.innerHeight;
-    var socket  = io.connect()
+    var socket  = this.props.socket
     //setting canvas in full mode
     canvas.width = width;
     canvas.height = height;

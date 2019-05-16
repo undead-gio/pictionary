@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import server from 'socket.io-client';
 import { SnackbarProvider, withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -25,12 +24,11 @@ const styles = theme => ({
     padding: theme.spacing.unit / 2,
   }
 });
-//connection to socket
-var io = server('http://localhost:8080')
-var socket  = io.connect()
+
 class MsgReceiver extends Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       open: false,
       message: 'Ready!',
@@ -39,6 +37,7 @@ class MsgReceiver extends Component {
   }
   //receive and show message from socket
   socketConnection = () => {
+    var socket=this.props.socket
     let receiveMsg = (_msg) =>{
       this.props.enqueueSnackbar(_msg);
     }
@@ -48,6 +47,7 @@ class MsgReceiver extends Component {
   }
   //send message to socket
   handleClick = () => {
+    var socket=this.props.socket
     socket.emit('chat message', this.state.message)
   }
   //save text input in the state
@@ -92,10 +92,10 @@ MsgReceiver.propTypes = {
   enqueueSnackbar: PropTypes.func.isRequired,
 };
 const Messages = withStyles(styles)(withSnackbar(MsgReceiver));
-function Chat() {
+function Chat({ socket }) {
   return (
     <SnackbarProvider maxSnack={5}>
-      <Messages />
+      <Messages socket={socket}/>
     </SnackbarProvider>
   );
 }
