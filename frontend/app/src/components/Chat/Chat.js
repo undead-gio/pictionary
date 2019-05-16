@@ -47,7 +47,6 @@ class MsgReceiver extends Component {
           vertical: 'bottom',
           horizontal: 'left',
         },
-        persist: true,
         variant: type,
         autoHideDuration: 1500,
     });

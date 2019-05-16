@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import server from 'socket.io-client';
-
-
 class Canvas extends Component {
   canvasDrawing= () => {
     //initial settings

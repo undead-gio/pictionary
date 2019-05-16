@@ -3,6 +3,7 @@ import server from 'socket.io-client';
 import Canvas from '../Canvas/Canvas';
 import Chat from '../Chat/Chat';
 import UserList from '../UserList/UserList';
+import Word from '../Word/Word';
 import Header from '../Header/Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './App.scss'
@@ -17,18 +18,22 @@ const theme = createMuiTheme({
       anchorOriginBottomLeft:{
         marginBottom:'10%',
       }
-    }
+    } 
   }
 });
 //connection to socket
 var io = server('http://localhost:8080')
 var socket  = io.connect()
 class App extends Component {
-  render() {
+  render() { 
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
           <Header />
+          <Word  
+            socket={socket} 
+            user={1}  
+          />
           <Canvas 
             socket={socket}
             user={1}
