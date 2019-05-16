@@ -42,7 +42,7 @@ class MsgReceiver extends Component {
       this.props.enqueueSnackbar(_msg);
     }
     socket.on('chat message', function (msg) {
-      receiveMsg(msg)
+      receiveMsg(msg.username+' / '+msg.msg)
     })
   }
   //send message to socket
