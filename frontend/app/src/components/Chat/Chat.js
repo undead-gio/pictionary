@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import server from 'socket.io-client';
 import { SnackbarProvider, withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -30,17 +31,31 @@ class MsgReceiver extends Component {
     super(props);
     this.state = {
       open: false,
-      message: 'No Message',
+      message: '',
     };
   }
+  connectToServer = () => {
+    var io = server('http://localhost:8080')
+    var socket  = io.connect()
+    socket.on('chat message', function (data) {
+      this.props.enqueueSnackbar(data);
+    }); 
+  }
   handleClick = () => {
-    this.props.enqueueSnackbar(this.state.message);
+    var io = server('http://localhost:8080')
+    var socket  = io.connect()
+    socket.emit('chat message', { msg: [ this.state.message ] })
+    //prova
+    this.props.enqueueSnackbar(this.state.message)
   };
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
     });
   };
+  componentDidMount(){
+    this.connectToServer()
+  }
   render() {
     return (
       <React.Fragment>
