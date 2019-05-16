@@ -12,6 +12,13 @@ const theme = createMuiTheme({
     primary: { main: '#00bcd4' }, 
     secondary: { main: '#00e676' },
   },
+  overrides:{
+    MuiSnackbar:{
+      anchorOriginBottomLeft:{
+        marginBottom:'10%',
+      }
+    }
+  }
 });
 //connection to socket
 var io = server('http://localhost:8080')

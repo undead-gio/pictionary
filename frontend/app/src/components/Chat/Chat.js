@@ -20,9 +20,12 @@ const styles = theme => ({
   textBar:{
     width: '100%',
   },
+  anchorOriginBottomLeft:{
+    margin:'20px'
+  },
   close: {
     padding: theme.spacing.unit / 2,
-  }
+  },
 });
 
 class MsgReceiver extends Component {
@@ -40,7 +43,13 @@ class MsgReceiver extends Component {
     var socket=this.props.socket
     let receiveMsg = (_msg,type) =>{
       this.props.enqueueSnackbar(_msg,{ 
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'left',
+        },
+        persist: true,
         variant: type,
+        autoHideDuration: 1500,
     });
     }
     socket.on('chat message', function (msg) {
@@ -96,9 +105,13 @@ MsgReceiver.propTypes = {
 const Messages = withStyles(styles)(withSnackbar(MsgReceiver));
 function Chat({ socket }) {
   return (
-    <SnackbarProvider maxSnack={5}>
+    <SnackbarProvider 
+    maxSnack={5}
+    dense
+    hideIconVariant
+    >
       <Messages socket={socket}/>
     </SnackbarProvider>
   );
 }
-export default  Chat;
+export default  withStyles(styles)(Chat);
