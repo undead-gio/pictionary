@@ -16,7 +16,7 @@ const theme = createMuiTheme({
   },
   overrides:{
     MuiSnackbar:{
-      anchorOriginBottomLeft:{
+      anchorOriginBottomRight:{
         marginBottom:'10%',
       }
     }

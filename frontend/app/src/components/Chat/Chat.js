@@ -45,7 +45,7 @@ class MsgReceiver extends Component {
       this.props.enqueueSnackbar(_msg,{ 
         anchorOrigin: {
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'right',
         },
         variant: type,
         autoHideDuration: 1500,
