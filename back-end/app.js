@@ -7,6 +7,7 @@ var express = require('express'),
 var server =  http.createServer(app);
 var io = socketIo.listen(server);
 server.listen(8080);
+
 // add directory with our static files
 app.use(express.static(__dirname + '/public'));
 console.log("Server running on 127.0.0.1:8080");
@@ -29,4 +30,11 @@ io.on('connection', function (socket) {
       // send line to all clients
       io.emit('draw', { line: data.line });
    });
+
+   // add handler for message type "chat".
+   socket.on('chat message', function(msg){
+    //send message to all clients
+    io.emit('chat message', msg);
+  });
+
 });
