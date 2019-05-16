@@ -18,13 +18,13 @@ import MailIcon from '@material-ui/icons/Mail';
 
 const styles = theme => ({
     menuButton: {
-      marginLeft: -12,
-      marginRight: 20,
+        marginLeft: -12,
+        marginRight: 20,
     },
     list: {
         width: 250,
     }
-  });
+});
 
 class Header extends Component {
     state = {
@@ -32,59 +32,59 @@ class Header extends Component {
         left: false,
         bottom: false,
         right: false,
-      };
+    };
     toggleDrawer = (side, open) => () => {
         this.setState({
-          [side]: open,
+            [side]: open,
         });
-      };
-  render() {
-    const { classes } = this.props;
-    //dentro sidelist come ListItema possiamo inserire quasi tutto quello che vogliamo
-    const sideList = (
-      <div className={classes.list}>
-        <List>
-            <ListItem button >
-              <ListItemIcon><InboxIcon /></ListItemIcon>
-              <ListItemText primary='Inbox' />
-            </ListItem>
-        </List>
-        <Divider />
-        <List>
-            <ListItem button >
-              <ListItemIcon><MailIcon /></ListItemIcon>
-              <ListItemText primary='Mail' />
-            </ListItem>
-        </List>
-      </div>
-    );
-    return (
-        <React.Fragment>
-            <AppBar position="fixed" color="primary">
-                <Toolbar>
-                    <IconButton className={classes.menuButton} onClick={this.toggleDrawer('left', true)} color="inherit" aria-label="Open drawer">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" color="inherit">
-                        Soctionary
+    };
+    render() {
+        const { classes } = this.props;
+        //dentro sidelist come ListItema possiamo inserire quasi tutto quello che vogliamo
+        const sideList = (
+            <div className={classes.list}>
+                <List>
+                    <ListItem button >
+                        <ListItemIcon><InboxIcon /></ListItemIcon>
+                        <ListItemText primary='Inbox' />
+                    </ListItem>
+                </List>
+                <Divider />
+                <List>
+                    <ListItem button >
+                        <ListItemIcon><MailIcon /></ListItemIcon>
+                        <ListItemText primary='Mail' />
+                    </ListItem>
+                </List>
+            </div>
+        );
+        return (
+            <React.Fragment>
+                <AppBar position="fixed" color="primary">
+                    <Toolbar>
+                        <IconButton className={classes.menuButton} onClick={this.toggleDrawer('left', true)} color="inherit" aria-label="Open drawer">
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" color="inherit">
+                            Soctionary
                     </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
-                <div
-                    tabIndex={0}
-                    role="button"
-                    onClick={this.toggleDrawer('left', false)}
-                    onKeyDown={this.toggleDrawer('left', false)}
-                >
-                    {sideList}
-                </div>
-            </Drawer>
-        </React.Fragment>
-    );
-  }
+                    </Toolbar>
+                </AppBar>
+                <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+                    <div
+                        tabIndex={0}
+                        role="button"
+                        onClick={this.toggleDrawer('left', false)}
+                        onKeyDown={this.toggleDrawer('left', false)}
+                    >
+                        {sideList}
+                    </div>
+                </Drawer>
+            </React.Fragment>
+        );
+    }
 }
 Header.propTypes = {
     classes: PropTypes.object.isRequired,
-  };
+};
 export default withStyles(styles)(Header);

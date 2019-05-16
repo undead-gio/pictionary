@@ -16,14 +16,14 @@ class WordReceiver extends Component {
     this.state = {
       open: false,
     };
-    
+
   }
   //receive and show message from socket
   socketConnection = () => {
-    var socket=this.props.socket
+    var socket = this.props.socket
     //sostituire msg con la parola da disegnare
-    let receiveMsg = (_msg) =>{
-      this.props.enqueueSnackbar(_msg,{ 
+    let receiveMsg = (_msg) => {
+      this.props.enqueueSnackbar(_msg, {
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'center',
@@ -31,15 +31,15 @@ class WordReceiver extends Component {
         persist: true,
         children: (key) => (
           //da personalizzare il componente SnackWord
-          <SnackWord id={key} word={_msg}/>
+          <SnackWord id={key} word={_msg} />
         ),
-    });
+      });
     }
     socket.on('chat message', function (msg) {
       receiveMsg((msg.username))
     })
   }
-  componentDidMount(){
+  componentDidMount() {
     this.socketConnection()
   }
   render() {
@@ -55,13 +55,13 @@ WordReceiver.propTypes = {
 const WinWord = withStyles(styles)(withSnackbar(WordReceiver));
 function Word({ socket }) {
   return (
-    <SnackbarProvider 
-    maxSnack={5}
-    dense
-    hideIconVariant
+    <SnackbarProvider
+      maxSnack={5}
+      dense
+      hideIconVariant
     >
-      <WinWord socket={socket}/>
+      <WinWord socket={socket} />
     </SnackbarProvider>
   );
 }
-export default  withStyles(styles)(Word);
+export default withStyles(styles)(Word);

@@ -17,11 +17,11 @@ const styles = theme => ({
     top: 'auto',
     bottom: 0,
   },
-  textBar:{
+  textBar: {
     width: '100%',
   },
-  anchorOriginBottomLeft:{
-    margin:'20px'
+  anchorOriginBottomLeft: {
+    margin: '20px'
   },
   close: {
     padding: theme.spacing.unit / 2,
@@ -36,28 +36,28 @@ class MsgReceiver extends Component {
       open: false,
       message: 'Ready!',
     };
-    
+
   }
   //receive and show message from socket
   socketConnection = () => {
-    var socket=this.props.socket
-    let receiveMsg = (_msg,type) =>{
-      this.props.enqueueSnackbar(_msg,{ 
+    var socket = this.props.socket
+    let receiveMsg = (_msg, type) => {
+      this.props.enqueueSnackbar(_msg, {
         anchorOrigin: {
           vertical: 'bottom',
           horizontal: 'right',
         },
         variant: type,
         autoHideDuration: 1500,
-    });
+      });
     }
     socket.on('chat message', function (msg) {
-      receiveMsg((msg.username+' / '+msg.msg),msg.type)
+      receiveMsg((msg.username + ' / ' + msg.msg), msg.type)
     })
   }
   //send message to socket
   handleClick = () => {
-    var socket=this.props.socket
+    var socket = this.props.socket
     socket.emit('chat message', this.state.message)
   }
   //save text input in the state
@@ -67,7 +67,7 @@ class MsgReceiver extends Component {
     });
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.socketConnection()
   }
   render() {
@@ -76,16 +76,16 @@ class MsgReceiver extends Component {
         <AppBar position="fixed" color="primary" className={this.props.classes.appBar}>
           <Toolbar >
             <TextField
-            id="outlined-full-width"
-            label="Guess the draw"
-            style={{ margin: 8 }}
-            margin="normal"
-            variant="outlined"
-            onChange={this.handleChange('message')}
-            className={this.props.classes.textBar}
-            InputLabelProps={{
-              shrink: true,
-            }}
+              id="outlined-full-width"
+              label="Guess the draw"
+              style={{ margin: 8 }}
+              margin="normal"
+              variant="outlined"
+              onChange={this.handleChange('message')}
+              className={this.props.classes.textBar}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
             <div>
               <Fab size="medium" color="secondary" aria-label="Add" onClick={this.handleClick}>
@@ -104,13 +104,13 @@ MsgReceiver.propTypes = {
 const Messages = withStyles(styles)(withSnackbar(MsgReceiver));
 function Chat({ socket }) {
   return (
-    <SnackbarProvider 
-    maxSnack={5}
-    dense
-    hideIconVariant
+    <SnackbarProvider
+      maxSnack={5}
+      dense
+      hideIconVariant
     >
-      <Messages socket={socket}/>
+      <Messages socket={socket} />
     </SnackbarProvider>
   );
 }
-export default  withStyles(styles)(Chat);
+export default withStyles(styles)(Chat);

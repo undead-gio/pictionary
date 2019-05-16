@@ -11,39 +11,39 @@ import './App.scss'
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: '#00bcd4' }, 
+    primary: { main: '#00bcd4' },
     secondary: { main: '#00e676' },
   },
-  overrides:{
-    MuiSnackbar:{
-      anchorOriginBottomRight:{
-        marginBottom:'10%',
+  overrides: {
+    MuiSnackbar: {
+      anchorOriginBottomRight: {
+        marginBottom: '10%',
       }
     }
   }
 });
 //connection to socket
 var io = server('http://localhost:8080')
-var socket  = io.connect()
+var socket = io.connect()
 class App extends Component {
-  render() { 
+  render() {
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
           <Header />
-          <Timer 
-            socket={socket} 
-            user={1}
-          />
-          <Word  
-            socket={socket} 
-            user={1}  
-          />
-          <Canvas 
+          <Timer
             socket={socket}
             user={1}
           />
-          <Chat 
+          <Word
+            socket={socket}
+            user={1}
+          />
+          <Canvas
+            socket={socket}
+            user={1}
+          />
+          <Chat
             socket={socket}
             user={1}
           />
