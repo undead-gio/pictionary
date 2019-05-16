@@ -38,11 +38,13 @@ class MsgReceiver extends Component {
   //receive and show message from socket
   socketConnection = () => {
     var socket=this.props.socket
-    let receiveMsg = (_msg) =>{
-      this.props.enqueueSnackbar(_msg);
+    let receiveMsg = (_msg,type) =>{
+      this.props.enqueueSnackbar(_msg,{ 
+        variant: type,
+    });
     }
     socket.on('chat message', function (msg) {
-      receiveMsg(msg.username+' / '+msg.msg)
+      receiveMsg((msg.username+' / '+msg.msg),msg.type)
     })
   }
   //send message to socket

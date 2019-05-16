@@ -57,7 +57,7 @@ io.on('connection', function (socket) {
   // add handler for message type "chat".
   socket.on('chat message', function(msg){
   // send message to all clients
-  io.emit('chat message', { msg: msg, username: socket.username });
+  io.emit('chat message', { msg: msg, username: socket.username, type: 'info' });//aggiunto type per definire il tipo di messaggio: info normale, success corretto, error sbagliato
   });
 
 });
