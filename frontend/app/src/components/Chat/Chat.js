@@ -25,28 +25,30 @@ const styles = theme => ({
     padding: theme.spacing.unit / 2,
   }
 });
+var io = server('http://localhost:8080')
+var socket  = io.connect()
+var messages = ''
 
 class MsgReceiver extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      message: '',
+      message: 'Ready!',
     };
+    
   }
   connectToServer = () => {
-    var io = server('http://localhost:8080')
-    var socket  = io.connect()
-    socket.on('chat message', function (data) {
-      this.props.enqueueSnackbar(data);
-    }); 
+    let receiveMsg = (_msg) =>{
+      this.props.enqueueSnackbar(_msg);
+    }
+    socket.on('chat message', function (msg) {
+      receiveMsg(msg)
+    })
   }
+  
   handleClick = () => {
-    var io = server('http://localhost:8080')
-    var socket  = io.connect()
-    socket.emit('chat message', { msg: [ this.state.message ] })
-    //prova
-    this.props.enqueueSnackbar(this.state.message)
+    socket.emit('chat message', this.state.message)
   };
   handleChange = name => event => {
     this.setState({
