@@ -10,9 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 
+//style for classNames
 const styles = theme => ({
   appBar: {
     top: 'auto',
@@ -25,10 +25,9 @@ const styles = theme => ({
     padding: theme.spacing.unit / 2,
   }
 });
+//connection to socket
 var io = server('http://localhost:8080')
 var socket  = io.connect()
-var messages = ''
-
 class MsgReceiver extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +37,8 @@ class MsgReceiver extends Component {
     };
     
   }
-  connectToServer = () => {
+  //receive and show message from socket
+  socketConnection = () => {
     let receiveMsg = (_msg) =>{
       this.props.enqueueSnackbar(_msg);
     }
@@ -46,17 +46,19 @@ class MsgReceiver extends Component {
       receiveMsg(msg)
     })
   }
-  
+  //send message to socket
   handleClick = () => {
     socket.emit('chat message', this.state.message)
-  };
+  }
+  //save text input in the state
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
     });
   };
+
   componentDidMount(){
-    this.connectToServer()
+    this.socketConnection()
   }
   render() {
     return (
