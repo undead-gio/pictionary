@@ -49,7 +49,7 @@ class MsgReceiver extends Component {
       });
     }
     socket.on('chat message', function (msg) {
-      receiveMsg((msg.username + ' / ' + msg.msg), msg.type)
+      receiveMsg((msg.username + ' / ' + msg.message), msg.type)
     })
   }
   //send message to socket

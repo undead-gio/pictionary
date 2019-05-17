@@ -75,15 +75,15 @@ io.on('connection', function (socket) {
   });
 
   // add handler for message type "chat".
-  socket.on('chat', function (data) {
+  socket.on('chat message', function (data) {
     console.log("ciaos");
-    if( data.message == WORDS[randomNumb] ){
+    if( data == WORDS[randomNumb] ){
       // send data of winner user and word
       io.sockets.emit('chat message', { type: "success", win: true, winner: socket.username, winWord: WORDS[randomNumb] })
     }
     else {
       // send message to all clients
-      io.sockets.emit('chat message', { type: "info", message: data.message, username: socket.username })
+      io.sockets.emit('chat message', { type: "info", message: data, username: socket.username })
     }
   });
 
