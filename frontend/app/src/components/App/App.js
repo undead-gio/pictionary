@@ -59,10 +59,6 @@ class App extends Component {
             socket={socket}
             user={1}
           />
-          <Timer
-            socket={socket}
-            user={1}
-          />
           <Word
             socket={socket}
             user={1}

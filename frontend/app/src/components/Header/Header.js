@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Timer from '../Timer/Timer'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -14,6 +15,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import { ListItemSecondaryAction } from '@material-ui/core';
 
 const styles = theme => ({
     menuButton: {
@@ -34,6 +36,12 @@ const styles = theme => ({
           width: 'auto',
         },
     },
+    timer: {
+
+    },
+    subHeader: {
+        backgroundColor: theme.palette.secondary.main,
+    }
 });
 
 class Header extends Component {
@@ -84,7 +92,7 @@ class Header extends Component {
         return (
             <React.Fragment>
                 <AppBar position="fixed" color="primary">
-                    <Toolbar>
+                    <Toolbar variant="dense">
                         <IconButton className={classes.menuButton} onClick={this.toggleDrawer('left', true)} color="inherit" aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton>
@@ -93,6 +101,14 @@ class Header extends Component {
                         </Typography>
                         <Typography variant="h6" color="inherit" className={classes.usr}>
                             {this.state.username}
+                        </Typography>
+                    </Toolbar>
+                    <Toolbar variant="dense" className={classes.subHeader} >
+                        <Typography variant="h6" color="inherit" className={classes.timer}>
+                            <Timer
+                                socket={this.props.socket}
+                                user={1}
+                            />
                         </Typography>
                     </Toolbar>
                 </AppBar>

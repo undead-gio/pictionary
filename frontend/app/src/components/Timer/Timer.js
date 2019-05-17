@@ -41,7 +41,7 @@ class Timer extends React.Component {
         return (
             <div className={classes.root}>
                 <span>Hurry Up!</span>
-                <LinearProgress color="secondary" variant="determinate" value={this.state.completed} />
+                <LinearProgress color="primary" variant="determinate" value={this.state.completed} />
             </div>
         );
     }
