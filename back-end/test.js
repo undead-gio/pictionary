@@ -62,6 +62,9 @@ io.on('connection', function (socket){
     randomNumb = Math.floor(Math.random() * numWords);
     io.sockets.emit('start', {  master: master });
     io.sockets.sockets[master].emit('word', { word: WORDS[randomNumb] });
+    setTimeout(function () {
+      io.sockets.emit('play');
+    }, 5000);
   });
 
   socket.on('draw', function (data) {
@@ -69,12 +72,15 @@ io.on('connection', function (socket){
     socket.broadcast.emit('draw', { line: data.line });  // send line to all clients
   });
 
+  // add handler for message type "chat".
   socket.on('chat', function (data) {
     if( data.message == WORDS[randomNumb] ){
-      io.sockets.emit('chat', { type: "outcome", win: true, winner: socket.username, winWord: WORDS[randomNumb] })
+      // send data of winner user and word
+      io.sockets.emit('chat', { type: "success", win: true, winner: socket.username, winWord: WORDS[randomNumb] })
     }
     else {
-      io.sockets.emit('chat', { type: "chat", message: data.message, username: socket.username })
+      // send message to all clients
+      io.sockets.emit('chat', { type: "info", message: data.message, username: socket.username })
     }
   });
 
