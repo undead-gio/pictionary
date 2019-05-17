@@ -19,16 +19,18 @@ const styles = {
 class Timer extends React.Component {
     state = {
         completed: 50,
+        text: 'Hurry Up!'
     };
     socketConnection = () => {
         var socket = this.props.socket
-        let updateTimer = (time) => {
+        let updateTimer = (time,text) => {
             this.setState({
                 completed: time,
+                text: text,
             })
         }
-        socket.on('timer', function (time) {
-            updateTimer(time)
+        socket.on('timer', function (time,text) {
+            updateTimer(time,text)
         })
     }
 
@@ -44,7 +46,7 @@ class Timer extends React.Component {
         return (
             <div className={classes.root}>
                 <Typography variant="subheading" color="inherit">
-                    Hurry Up!
+                    {this.state.text}
                 </Typography>
                 <LinearProgress color="primary" variant="determinate" value={this.state.completed} />
             </div>
