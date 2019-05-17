@@ -47,7 +47,7 @@ class App extends Component {
     })
   }
   componentDidMount() {
-    this.socketConnection()
+    //this.socketConnection()
   }
   render() {
     return (
