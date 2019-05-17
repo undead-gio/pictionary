@@ -8,6 +8,12 @@ import SendIcon from '@material-ui/icons/Send';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Divider } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MailIcon from '@material-ui/icons/Mail';
 
 
 
@@ -40,7 +46,7 @@ class User_list extends React.Component {
             players = this.state.users.filter((user) => user.role !== 'master');
 
         return (
-            <div className={classes.list}>
+            <div >
                 <List>
                     {
                         // operatore ternario

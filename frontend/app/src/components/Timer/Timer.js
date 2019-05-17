@@ -7,8 +7,8 @@ const styles = {
     root: {
         flexGrow: 1,
         width: '100%',
-        position: 'absolute',
-        top: '100px',
+        position: 'relative',
+        top: '0px',
         zIndex: '3',
     },
 };
