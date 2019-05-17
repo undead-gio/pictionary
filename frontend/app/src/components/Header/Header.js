@@ -15,6 +15,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Chip from '@material-ui/core/Chip';
 import { ListItemSecondaryAction } from '@material-ui/core';
 
 const styles = theme => ({
@@ -41,11 +42,15 @@ const styles = theme => ({
     },
     subHeader: {
         backgroundColor: theme.palette.secondary.main,
+    },
+    chip: {
+        marginRight: theme.spacing.unit,
     }
 });
 
 class Header extends Component {
     state = {
+        WinWord: 'Winner Word',
         username: '',
         left: false,
     };
@@ -57,13 +62,14 @@ class Header extends Component {
     socketConnection = () => {
         var socket = this.props.socket
         //sostituire msg con la parola da disegnare
-        let receiveUsername = (_usr) => {
+        let receiveUsername = (_usr,_word) => {
             this.setState({
                 username: _usr,
+                WinWord: _word,
             })
         }
         socket.on('chat message', function (usr) {
-            receiveUsername((usr.username))
+            receiveUsername((usr.username, usr.winWord))
         })
     }
     componentDidMount() {
@@ -104,6 +110,11 @@ class Header extends Component {
                         </Typography>
                     </Toolbar>
                     <Toolbar variant="dense" className={classes.subHeader} >
+                        <Chip
+                            label={this.state.WinWord}
+                            className={classes.chip}
+                            color="primary"
+                        />
                         <Timer
                             socket={this.props.socket}
                             user={1}
