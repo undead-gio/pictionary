@@ -62,14 +62,21 @@ class Header extends Component {
     socketConnection = () => {
         var socket = this.props.socket
         //sostituire msg con la parola da disegnare
-        let receiveUsername = (_usr,_word) => {
+        let receiveUsername = (_usr) => {
             this.setState({
                 username: _usr,
+            })
+        }
+        let receiveWinWord = (_word) => {
+            this.setState({
                 WinWord: _word,
             })
         }
         socket.on('chat message', function (usr) {
-            receiveUsername((usr.username, usr.winWord))
+            receiveUsername((usr.username))
+        })
+        socket.on('word', function (word) {
+            receiveUsername((word))
         })
     }
     componentDidMount() {
