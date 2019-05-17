@@ -26,10 +26,11 @@ io.on('connection', function (socket) {
 
   // list of connected user
   let connectedUsersArray = Object.keys(io.sockets.sockets);
+  let allPlayer = connectedUsersArray.map((user) => user.username)
   // assign random username to new connected user
-  socket.username = NAME[Math.floor(Math.random() * NAMES.length)];
+  socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
   // emit with socket the list of connected user
-  socket.broadcast.emit('connect', { totUser: connectedUsersArray.length });
+  socket.broadcast.emit('connect', { totUser: connectedUsersArray.lennght, allUser: allPlayer });
 
   // first send the history to the new client
   for (var i in line_history) {
@@ -41,7 +42,7 @@ io.on('connection', function (socket) {
        // when a user disconnects I will be emitting the new total user
        let connectedUsersArray = Object.keys(io.sockets.sockets);
        // emit  with broadcast the new list of users connected
-       socket.broadcast.emit('disconnect', { totUser: connectedUsersArray.length });
+       socket.broadcast.emit('disconnect', { user: socket.username, totUser: connectedUsersArray.length });
        console.log('disconnected' + socket.username);
    });
 
@@ -56,7 +57,7 @@ io.on('connection', function (socket) {
   // add handler for message type "chat".
   socket.on('chat message', function(msg){
   // send message to all clients
-  io.emit('chat message', { msg: msg, username: socket.username });
+  io.emit('chat message', { msg: msg, username: socket.username, type: 'info' });//aggiunto type per definire il tipo di messaggio: info normale, success corretto, error sbagliato
   });
 
 });
