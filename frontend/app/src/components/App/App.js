@@ -26,6 +26,29 @@ const theme = createMuiTheme({
 var io = server('http://localhost:8080')
 var socket = io.connect()
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props)
+    this.state = {
+      master: null,
+    };
+
+  }
+  socketConnection = () => {
+    var socket = this.props.socket
+    //sostituire msg con la parola da disegnare
+    let receiveMaster = (master) => {
+      this.setState({
+        master: master,
+      })
+    }
+    socket.on('start', function (master) {
+      receiveMaster((master))
+    })
+  }
+  componentDidMount() {
+    this.socketConnection()
+  }
   render() {
     return (
       <React.Fragment>
