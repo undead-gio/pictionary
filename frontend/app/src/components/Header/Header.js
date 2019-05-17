@@ -22,21 +22,45 @@ const styles = theme => ({
     },
     list: {
         width: 250,
-    }
+    },
+    usr: {
+        position: 'absolute',
+        marginRight: '50%!important',
+        transform: 'translateX(50%)',
+        right: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+          marginRight: theme.spacing.unit,
+          width: 'auto',
+        },
+    },
 });
 
 class Header extends Component {
     state = {
-        top: false,
+        username: '',
         left: false,
-        bottom: false,
-        right: false,
     };
     toggleDrawer = (side, open) => () => {
         this.setState({
             [side]: open,
         });
     };
+    socketConnection = () => {
+        var socket = this.props.socket
+        //sostituire msg con la parola da disegnare
+        let receiveUsername = (_usr) => {
+            this.setState({
+                username: _usr,
+            })
+        }
+        socket.on('chat message', function (usr) {
+          receiveUsername((usr.username))
+        })
+    }
+    componentDidMount() {
+        this.socketConnection()
+    }
     render() {
         const { classes } = this.props;
         //dentro sidelist come ListItema possiamo inserire quasi tutto quello che vogliamo
@@ -66,7 +90,10 @@ class Header extends Component {
                         </IconButton>
                         <Typography variant="h6" color="inherit">
                             Soctionary
-                    </Typography>
+                        </Typography>
+                        <Typography variant="h6" color="inherit" className={classes.usr}>
+                            {this.state.username}
+                        </Typography>
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
