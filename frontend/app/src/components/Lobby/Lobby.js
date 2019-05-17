@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import server from 'socket.io-client';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -22,12 +22,11 @@ class Lobby extends Component {
     render() {
         return (
             <Grid item xs={12} md={6}>
-                <Typography variant="h6" className={classes.title}>
+                <Typography variant="h6" className={this.props.classes.title}>
                     Connected users
                 </Typography>
-                <div className={classes.demo}>
-                    <List dense={dense}>
-                        {generate(
+                <div className={this.props.classes.demo}>
+                    <List dense>
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
@@ -36,10 +35,10 @@ class Lobby extends Component {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary="nome utente"
-                                    secondary={secondary ? 'Secondary text' : null}
+                                    
                                 />
                             </ListItem>,
-                        )}
+    
                     </List>
                 </div>
             </Grid>

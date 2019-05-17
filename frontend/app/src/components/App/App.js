@@ -3,6 +3,7 @@ import server from 'socket.io-client';
 import Canvas from '../Canvas/Canvas';
 import Chat from '../Chat/Chat';
 import UserList from '../UserList/UserList';
+import Lobby from '../Lobby/Lobby'
 import Word from '../Word/Word';
 import Timer from '../Timer/Timer'
 import Header from '../Header/Header';
@@ -53,6 +54,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
+          {/*<Lobby  socket={socket} user={1}/>*/}
           <Header />
           <Timer
             socket={socket}
