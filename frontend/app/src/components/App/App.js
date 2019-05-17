@@ -54,9 +54,8 @@ class App extends Component {
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
-          <Lobby  socket={socket} user={1}/>
-          <Header />
-          <Timer
+          {/*<Lobby  socket={socket} user={1}/>*/}
+          <Header
             socket={socket}
             user={1}
           />
@@ -76,6 +75,6 @@ class App extends Component {
       </React.Fragment>
     );
   }
-} 
+}
 
 export default App;

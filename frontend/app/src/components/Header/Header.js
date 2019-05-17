@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Timer from '../Timer/Timer'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -14,6 +15,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Chip from '@material-ui/core/Chip';
+import { ListItemSecondaryAction } from '@material-ui/core';
 
 const styles = theme => ({
     menuButton: {
@@ -22,21 +25,63 @@ const styles = theme => ({
     },
     list: {
         width: 250,
+    },
+    usr: {
+        position: 'absolute',
+        marginRight: '50%!important',
+        transform: 'translateX(50%)',
+        right: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginRight: theme.spacing.unit,
+            width: 'auto',
+        },
+    },
+    timer: {
+
+    },
+    subHeader: {
+        backgroundColor: theme.palette.secondary.main,
+    },
+    chip: {
+        marginRight: theme.spacing.unit,
     }
 });
 
 class Header extends Component {
     state = {
-        top: false,
+        WinWord: 'Winner Word',
+        username: '',
         left: false,
-        bottom: false,
-        right: false,
     };
     toggleDrawer = (side, open) => () => {
         this.setState({
             [side]: open,
         });
     };
+    socketConnection = () => {
+        var socket = this.props.socket
+        //sostituire msg con la parola da disegnare
+        let receiveUsername = (_usr) => {
+            this.setState({
+                username: _usr,
+            })
+        }
+        let receiveWinWord = (_word) => {
+            this.setState({
+                WinWord: _word,
+            })
+        }
+        socket.on('chat message', function (usr) {
+            receiveUsername((usr.username))
+        })
+        socket.on('word', function (word) {
+            receiveUsername((word))
+        })
+    }
+    componentDidMount() {
+        this.socketConnection()
+    }
     render() {
         const { classes } = this.props;
         //dentro sidelist come ListItema possiamo inserire quasi tutto quello che vogliamo
@@ -60,13 +105,27 @@ class Header extends Component {
         return (
             <React.Fragment>
                 <AppBar position="fixed" color="primary">
-                    <Toolbar>
+                    <Toolbar variant="dense">
                         <IconButton className={classes.menuButton} onClick={this.toggleDrawer('left', true)} color="inherit" aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" color="inherit">
                             Soctionary
-                    </Typography>
+                        </Typography>
+                        <Typography variant="h6" color="inherit" className={classes.usr}>
+                            {this.state.username}
+                        </Typography>
+                    </Toolbar>
+                    <Toolbar variant="dense" className={classes.subHeader} >
+                        <Chip
+                            label={this.state.WinWord}
+                            className={classes.chip}
+                            color="primary"
+                        />
+                        <Timer
+                            socket={this.props.socket}
+                            user={1}
+                        />
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
