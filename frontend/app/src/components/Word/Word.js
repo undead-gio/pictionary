@@ -27,6 +27,7 @@ class WordReceiver extends Component {
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'center',
+          
         },
         persist: true,
         children: (key) => (
