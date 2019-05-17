@@ -22,22 +22,22 @@ class WordReceiver extends Component {
   socketConnection = () => {
     var socket = this.props.socket
     //sostituire msg con la parola da disegnare
-    let receiveMsg = (_msg) => {
-      this.props.enqueueSnackbar(_msg, {
+    let receiveWord = (_word) => {
+      this.props.enqueueSnackbar(_word, {
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'center',
-          
+
         },
         persist: true,
         children: (key) => (
           //da personalizzare il componente SnackWord
-          <SnackWord id={key} word={_msg} />
+          <SnackWord id={key} word={_word} />
         ),
       });
     }
-    socket.on('chat message', function (msg) {
-      receiveMsg((msg.username))
+    socket.on('word', function (word) {
+      receiveWord((word))
     })
   }
   componentDidMount() {
