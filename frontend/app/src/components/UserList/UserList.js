@@ -9,28 +9,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Divider } from '@material-ui/core';
 
-class User_Array extends React.Component {
-    
-    state = {
-       
-    };
-    socketConnection = () => {
-        var socket = this.props.socket
-      
-    }
-    componentDidMount(){
-        this.socketConnection()
-    }
-
-    render(){
-
-        return(
-            <div>
-
-            </div>
-        );
-    }
-}
 
 
 class User_list extends React.Component {
