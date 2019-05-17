@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
+
 
 const styles = {
     root: {
@@ -10,6 +12,7 @@ const styles = {
         position: 'relative',
         top: '0px',
         zIndex: '3',
+        padding: '10px 0px',
     },
 };
 
@@ -40,7 +43,9 @@ class Timer extends React.Component {
         const { classes } = this.props;
         return (
             <div className={classes.root}>
-                <span>Hurry Up!</span>
+                <Typography variant="subheading" color="inherit">
+                    Hurry Up!
+                </Typography>
                 <LinearProgress color="primary" variant="determinate" value={this.state.completed} />
             </div>
         );

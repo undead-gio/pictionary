@@ -32,8 +32,8 @@ const styles = theme => ({
         right: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-          marginRight: theme.spacing.unit,
-          width: 'auto',
+            marginRight: theme.spacing.unit,
+            width: 'auto',
         },
     },
     timer: {
@@ -63,7 +63,7 @@ class Header extends Component {
             })
         }
         socket.on('chat message', function (usr) {
-          receiveUsername((usr.username))
+            receiveUsername((usr.username))
         })
     }
     componentDidMount() {
@@ -104,12 +104,10 @@ class Header extends Component {
                         </Typography>
                     </Toolbar>
                     <Toolbar variant="dense" className={classes.subHeader} >
-                        <Typography variant="h6" color="inherit" className={classes.timer}>
-                            <Timer
-                                socket={this.props.socket}
-                                user={1}
-                            />
-                        </Typography>
+                        <Timer
+                            socket={this.props.socket}
+                            user={1}
+                        />
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
