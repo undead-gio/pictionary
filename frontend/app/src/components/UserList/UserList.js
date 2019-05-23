@@ -16,44 +16,38 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 
 
-
 class User_list extends React.Component {
 
     state = {
         users: []
     }
 
-    componentDidMount = (props) => {
+    componentDidMount = () => {
         let component = this;
-        this.setState({ users: props.allUser })
-        let socket = props.socket;
-        socket.on('new user', (msg) => {
-            component.addUser(msg.username);
+        component.setState({ users: component.props.allUser || [] })
+        let socket = component.props.socket;
+        socket.on('connect', (msg) => {
+            console.log(msg);
+            component.setState({ users: msg.allPlayer });
         });
-    }
-
-    addUser = (username) => {
-        this.setState()
-    }
-
-    removeUser = (username) => {
-        this.setState()
     }
 
     render() {
 
-        let masters = this.state.users.filter((user) => user.role === 'master'),
-            players = this.state.users.filter((user) => user.role !== 'master');
+        //let masters = this.state.users.filter((user) => user.role === 'master'),
+        //    players = this.state.users.filter((user) => user.role !== 'master');
+
+        //console.log(masters, players);
 
         return (
-            <div >
+            <div>
                 <List>
-                    {
+                    {/*
                         // operatore ternario
                         // condizione ? se vera : se falsa
                         // condizione ? se vera : condizione === condizione && se vera
                         // condizione ? condizione : se falsa === condizione || se falsa
-                        masters.length
+                        !!masters.length
                         &&
                         <React.Fragment>
                             <ListItem button >
@@ -62,13 +56,13 @@ class User_list extends React.Component {
                             </ListItem>
                             <Divider />
                         </React.Fragment>
-                    }
+                    */}
                     {
-                        players.map((user) => {
+                        this.state.users.map((user) => {
                             return (
                                 <ListItem button >
                                     <ListItemIcon><MailIcon /></ListItemIcon>
-                                    <ListItemText primary={user.name} />
+                                    <ListItemText primary={user} />
                                 </ListItem>
                             );
                         })
