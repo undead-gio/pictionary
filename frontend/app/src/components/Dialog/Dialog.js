@@ -29,9 +29,6 @@ class StartDialog extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Open alert dialog
-        </Button>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -41,7 +38,7 @@ class StartDialog extends React.Component {
           <DialogTitle id="alert-dialog-title">{"Start a game"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Blablabla Blablabla Blablabla
+              Do you want start a game?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
