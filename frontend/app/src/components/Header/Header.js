@@ -17,7 +17,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Chip from '@material-ui/core/Chip';
 import { ListItemSecondaryAction } from '@material-ui/core';
-
+import User_list from '../UserList/UserList';
 const styles = theme => ({
     menuButton: {
         marginLeft: -12,
@@ -87,7 +87,7 @@ class Header extends Component {
             receiveWinWord(word.word)
         })
         socket.on('play', function (play) {
-            receiveAllPlayers(play.players,play.master)
+            receiveAllPlayers(play.player,play.master)
         })
     }
     render() {
@@ -143,7 +143,7 @@ class Header extends Component {
                         onClick={this.toggleDrawer('left', false)}
                         onKeyDown={this.toggleDrawer('left', false)}
                     >
-                        {sideList}
+                        <User_list players={ this.state.players} master={ this.state.master} />
                     </div>
                 </Drawer>
             </React.Fragment>
