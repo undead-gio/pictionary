@@ -5,7 +5,7 @@ import Chat from '../Chat/Chat';
 import UserList from '../UserList/UserList';
 import Lobby from '../Lobby/Lobby'
 import Word from '../Word/Word';
-import Timer from '../Timer/Timer'
+import Dialog from '../Dialog/Dialog'
 import Header from '../Header/Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './App.scss'
@@ -55,6 +55,10 @@ class App extends Component {
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
           {/*<Lobby  socket={socket} user={1}/>*/}
+          <Dialog
+            socket={socket}
+            user={1}
+          />
           <Header
             socket={socket}
             user={1}
