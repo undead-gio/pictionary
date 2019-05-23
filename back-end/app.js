@@ -76,9 +76,9 @@ io.on('connection', function (socket) {
   // array of all player
   let allPlayer = connectedUsersArray.map((socket) => socket.username);
 
-  console.log(connectedUsersArray);
   // emit with socket the list of connected user
   socket.emit('connect', { totUser: connectedUsersArray.length, allPlayer: allPlayer, myUsername: socket.username });
+  socket.emit('you', { myUsername: socket.myUsername })
 
   // first send the history to the new client
   for (var i in line_history) {
@@ -109,22 +109,15 @@ io.on('connection', function (socket) {
        counter--;
        console.log(counter)
        if (counter === 0) {
-         io.sockets.emit('play', {  master: master, player: player, status:false });
+         io.sockets.emit('play', {  master: master, player: player, status: false });
          io.sockets.emit('word', { word: WORDS[randomNumb] });
          console.log('emesso status')
          console.log('emessa winword: '+WORDS[randomNumb])
          start = true;
-         
+
          clearInterval(startCountdown);
        }
      }, 1000);
-
-     /*setTimeout(function () {
-       io.sockets.emit('play', {  master: master, player: player });
-       io.sockets.sockets[master].emit('word', { word: WORDS[randomNumb] });
-       start = true;
-     }, 5000);*/
-
    });
 
   // add handler for message type "draw_line".
