@@ -31,21 +31,25 @@ class App extends Component {
     console.log(props)
     this.state = {
       master: null,
+      username:'',
     };
 
   }
   socketConnection = () => {
-    var socket = this.props.socket
+    
     //sostituire msg con la parola da disegnare
-    let receiveMaster = (master) => {
+    let receiveUsername = (_usr) => {
       this.setState({
-        master: master,
+        username: _usr,
       })
     }
     socket.emit('connection');
+    socket.on('connect', function (usr) {
+      console.log(usr)
+  })
   }
   componentDidMount() {
-    //this.socketConnection()
+    this.socketConnection()
   }
   render() {
     return (
@@ -58,6 +62,7 @@ class App extends Component {
           />
           <Header
             socket={socket}
+            username={this.state.username}
             user={1}
           />
           <Canvas

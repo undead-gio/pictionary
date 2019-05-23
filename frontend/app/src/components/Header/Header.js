@@ -61,21 +61,17 @@ class Header extends Component {
             [side]: open,
         });
     };
-    socketConnection = () => {
-        
-        //sostituire msg con la parola da disegnare
-        let receiveUsername = (_usr) => {
-            this.setState({
-                username: _usr,
-            })
-        }
-    }
+
     componentDidMount() {
-        this.socketConnection()
         var socket = this.props.socket
         let receiveWinWord = (_word) => {
             this.setState({
                 WinWord: _word,
+            })
+        }
+        let receiveUsername = (_usr) => {
+            this.setState({
+                username: _usr,
             })
         }
         let receiveAllPlayers = (_players, _master) => {
@@ -84,6 +80,9 @@ class Header extends Component {
                 master: _master,
             })
         }
+        socket.on('start', function (usr) {
+            receiveUsername(usr.username)
+        })
         socket.on('word', function (word) {
             receiveWinWord(word.word)
         })
