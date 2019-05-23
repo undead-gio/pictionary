@@ -22,7 +22,7 @@ class User_list extends React.Component {
         //let masters = this.state.users.filter((user) => user.role === 'master'),
         //    players = this.state.users.filter((user) => user.role !== 'master');
 
-        //console.log(masters, players);
+        console.log(this.props.master, this.props.players);
 
         return (
             <div>
@@ -32,12 +32,12 @@ class User_list extends React.Component {
                         // condizione ? se vera : se falsa
                         // condizione ? se vera : condizione === condizione && se vera
                         // condizione ? condizione : se falsa === condizione || se falsa
-                        !!master
+                        !!this.props.master
                         &&
                         <React.Fragment>
                             <ListItem button >
                                 <ListItemIcon><MailIcon /></ListItemIcon>
-                                <ListItemText primary={master} />
+                                <ListItemText primary={this.props.master} />
                             </ListItem>
                             <Divider />
                         </React.Fragment>

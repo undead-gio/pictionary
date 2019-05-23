@@ -88,7 +88,7 @@ class Header extends Component {
             receiveWinWord(word.word)
         })
         socket.on('play', function (play) {
-            receiveAllPlayers(play.players,play.master)
+            receiveAllPlayers(play.player,play.master)
         })
     }
     render() {
@@ -144,7 +144,7 @@ class Header extends Component {
                         onClick={this.toggleDrawer('left', false)}
                         onKeyDown={this.toggleDrawer('left', false)}
                     >
-                        <User_list allUser={[]} socket={this.props.socket} />
+                        <User_list players={ this.state.players} master={ this.state.master} />
                     </div>
                 </Drawer>
             </React.Fragment>
