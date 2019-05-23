@@ -80,7 +80,7 @@ class Header extends Component {
                 master: _master,
             })
         }
-        socket.on('start', function (usr) {
+        socket.on('myUsername', function (usr) {
             receiveUsername(usr.username)
         })
         socket.on('word', function (word) {
