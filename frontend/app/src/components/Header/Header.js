@@ -50,7 +50,7 @@ const styles = theme => ({
 
 class Header extends Component {
     state = {
-        WinWord: 'Winner Word',
+        WinWord: 'Wait..',
         username: '',
         left: false,
     };
@@ -72,12 +72,10 @@ class Header extends Component {
                 WinWord: _word,
             })
         }
-        socket.on('chat message', function (usr) {
-            receiveUsername((usr.username))
+        socket.on('start', function (usr) {
+            receiveUsername((usr.myUsername))
         })
-        socket.on('word', function (word) {
-            receiveUsername((word))
-        })
+        
     }
     componentDidMount() {
         this.socketConnection()

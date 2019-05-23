@@ -5,26 +5,39 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Timer from '../Timer/Timer'
 
 class StartDialog extends React.Component {
     state = {
         open: true,
     };
+    
     socketConnection = () => {
         var socket = this.props.socket
-        //socket.on('timer', function (time,text) { })
+        
+        
     }
-    handleClickOpen = () => {
-        this.setState({ open: true });
-    };
-    handleClose = () => {
+    
+    handleStart = () => {
         var socket = this.props.socket
-        socket.emit('start', { isStarted: true});
-        this.setState({ open: false });
+        socket.emit('start');
+        
     };
     componentDidMount() {
+        var socket = this.props.socket
         this.socketConnection()
+        let handlePlay = (status) => {
+            this.setState({
+                open: status,
+            })
+            console.log('emesso play:'+status)
+        }
+        socket.on('play',function (play) {
+            handlePlay(play.status)
+            
+        })
     }
+
 
   render() {
     return (
@@ -40,9 +53,12 @@ class StartDialog extends React.Component {
             <DialogContentText id="alert-dialog-description">
               Do you want start a game?
             </DialogContentText>
+            <Timer
+                socket={this.props.socket}
+            />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary" autoFocus>
+            <Button onClick={this.handleStart} color="primary" autoFocus>
               Start
             </Button>
           </DialogActions>

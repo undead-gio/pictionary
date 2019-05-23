@@ -4,7 +4,6 @@ import Canvas from '../Canvas/Canvas';
 import Chat from '../Chat/Chat';
 import UserList from '../UserList/UserList';
 import Lobby from '../Lobby/Lobby'
-import Word from '../Word/Word';
 import Dialog from '../Dialog/Dialog'
 import Header from '../Header/Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -43,9 +42,7 @@ class App extends Component {
         master: master,
       })
     }
-    socket.on('start', function (master) {
-      receiveMaster((master))
-    })
+    socket.emit('connection');
   }
   componentDidMount() {
     //this.socketConnection()
@@ -60,10 +57,6 @@ class App extends Component {
             user={1}
           />
           <Header
-            socket={socket}
-            user={1}
-          />
-          <Word
             socket={socket}
             user={1}
           />

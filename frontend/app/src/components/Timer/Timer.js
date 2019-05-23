@@ -35,7 +35,6 @@ class Timer extends React.Component {
         }
         socket.on('counterStart', function (time) {
             updateTimer(time.counterStart*10)
-            console.log('timer:'+time)
         })
     }
 

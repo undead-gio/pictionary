@@ -76,7 +76,7 @@ io.on('connection', function (socket) {
   // array of all player
   let allPlayer = connectedUsersArray.map((socket) => socket.username);
 
-  console.log(allPlayer);
+  console.log(connectedUsersArray);
   // emit with socket the list of connected user
   socket.emit('connect', { totUser: connectedUsersArray.length, allPlayer: allPlayer, myUsername: socket.username });
 
@@ -107,10 +107,14 @@ io.on('connection', function (socket) {
      var startCountdown = setInterval(function(){
        io.sockets.emit('counterStart', { counterStart: counter } );
        counter--;
+       console.log(counter)
        if (counter === 0) {
-         io.sockets.emit('play', {  master: master, player: player });
+         io.sockets.emit('play', {  master: master, player: player, status:false });
          io.sockets.emit('word', { word: WORDS[randomNumb] });
+         console.log('emesso status')
+         console.log('emessa winword: '+WORDS[randomNumb])
          start = true;
+         
          clearInterval(startCountdown);
        }
      }, 1000);
