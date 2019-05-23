@@ -18,24 +18,24 @@ const styles = {
 
 class Timer extends React.Component {
     state = {
-        completed: 50,
+        completed: 100,
         text: 'Hurry Up!'
     };
     socketConnection = () => {
+        
+        
+    }
+    
+    componentDidMount() {
         var socket = this.props.socket
-        let updateTimer = (time,text) => {
+        let updateTimer = (time) => {
             this.setState({
                 completed: time,
-                text: text,
             })
         }
-        socket.on('timer', function (time,text) {
-            updateTimer(time,text)
+        socket.on('counterStart', function (time) {
+            updateTimer(time.counterStart*10)
         })
-    }
-
-    componentDidMount() {
-        this.socketConnection()
     }
 
     componentWillUnmount() {
