@@ -15,22 +15,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 
-
 class User_list extends React.Component {
-
-    state = {
-        users: []
-    }
-
-    componentDidMount = () => {
-        let component = this;
-        component.setState({ users: component.props.allUser || [] })
-        let socket = component.props.socket;
-        socket.on('connect', (msg) => {
-            console.log(msg);
-            component.setState({ users: msg.allPlayer });
-        });
-    }
 
     render() {
 
@@ -42,27 +27,27 @@ class User_list extends React.Component {
         return (
             <div>
                 <List>
-                    {/*
+                    {
                         // operatore ternario
                         // condizione ? se vera : se falsa
                         // condizione ? se vera : condizione === condizione && se vera
                         // condizione ? condizione : se falsa === condizione || se falsa
-                        !!masters.length
+                        !!master
                         &&
                         <React.Fragment>
                             <ListItem button >
                                 <ListItemIcon><MailIcon /></ListItemIcon>
-                                <ListItemText primary={masters[0].name} />
+                                <ListItemText primary={master} />
                             </ListItem>
                             <Divider />
                         </React.Fragment>
-                    */}
+                    }
                     {
-                        this.state.users.map((user) => {
+                        this.props.players.map((player) => {
                             return (
                                 <ListItem button >
                                     <ListItemIcon><MailIcon /></ListItemIcon>
-                                    <ListItemText primary={user} />
+                                    <ListItemText primary={player} />
                                 </ListItem>
                             );
                         })
