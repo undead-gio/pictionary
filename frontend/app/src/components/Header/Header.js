@@ -53,6 +53,8 @@ class Header extends Component {
         WinWord: 'Wait..',
         username: '',
         left: false,
+        players: [],
+        master: '',
     };
     toggleDrawer = (side, open) => () => {
         this.setState({
@@ -60,25 +62,34 @@ class Header extends Component {
         });
     };
     socketConnection = () => {
-        var socket = this.props.socket
+        
         //sostituire msg con la parola da disegnare
         let receiveUsername = (_usr) => {
             this.setState({
                 username: _usr,
             })
         }
+    }
+    componentDidMount() {
+        this.socketConnection()
+        var socket = this.props.socket
         let receiveWinWord = (_word) => {
             this.setState({
                 WinWord: _word,
             })
         }
-        socket.on('start', function (usr) {
-            receiveUsername((usr.myUsername))
+        let receiveAllPlayers = (_players, _master) => {
+            this.setState({
+                players: _players,
+                master: _master,
+            })
+        }
+        socket.on('word', function (word) {
+            receiveWinWord(word.word)
         })
-        
-    }
-    componentDidMount() {
-        this.socketConnection()
+        socket.on('play', function (play) {
+            receiveAllPlayers(play.players,play.master)
+        })
     }
     render() {
         const { classes } = this.props;
