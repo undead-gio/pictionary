@@ -6,10 +6,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Timer from '../Timer/Timer'
+import Lobby from '../Lobby/Lobby';
 
 class StartDialog extends React.Component {
     state = {
         open: true,
+        allPlayer: []
     };
     
     socketConnection = () => {
@@ -25,6 +27,7 @@ class StartDialog extends React.Component {
     };
     componentDidMount() {
         var socket = this.props.socket
+        var component = this
         this.socketConnection()
         let handlePlay = (status) => {
             this.setState({
@@ -35,6 +38,13 @@ class StartDialog extends React.Component {
         socket.on('play',function (play) {
             handlePlay(play.status)
             
+        })
+
+        socket.on('connect', function (msg = {}) {
+          let allPlayer = msg.allPlayer || [];
+          component.setState({
+            allPlayer: allPlayer
+          })         
         })
     }
 
@@ -57,6 +67,7 @@ class StartDialog extends React.Component {
                 socket={this.props.socket}
             />
           </DialogContent>
+          <Lobby allPlayer={this.state.allPlayer}></Lobby>
           <DialogActions>
             <Button onClick={this.handleStart} color="primary" autoFocus>
               Start

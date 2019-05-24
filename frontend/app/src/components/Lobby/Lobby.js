@@ -20,6 +20,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import { FormHelperText } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
+
 
 //style for classNames
 const styles = theme => ({
@@ -40,19 +42,26 @@ class Lobby extends Component {
             <Grid item xs={12} md={12} className={this.props.classes.lobbyRoot}>
             <div className={this.props.classes.userList}>
                 <Typography variant="h6">
-                    Connected users
+                    Users
                 </Typography>
                     <List>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <FolderIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary="nome utente"
-                            />
-                        </ListItem>
+                        {
+                            this.props.allPlayer.map(function(player) {
+                                return (
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <FolderIcon />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={player}
+                                        />
+                                    </ListItem>
+                                )
+                            })
+                        }
+                        
                     </List>
                     <Fab variant="extended" color="primary" aria-label="Add">
                         <NavigationIcon />
