@@ -15,60 +15,39 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 
-
-
 class User_list extends React.Component {
-
-    state = {
-        users: []
-    }
-
-    componentDidMount = (props) => {
-        let component = this;
-        this.setState({ users: props.allUser })
-        let socket = props.socket;
-        socket.on('new user', (msg) => {
-            component.addUser(msg.username);
-        });
-    }
-
-    addUser = (username) => {
-        this.setState()
-    }
-
-    removeUser = (username) => {
-        this.setState()
-    }
 
     render() {
 
-        let masters = this.state.users.filter((user) => user.role === 'master'),
-            players = this.state.users.filter((user) => user.role !== 'master');
+        //let masters = this.state.users.filter((user) => user.role === 'master'),
+        //    players = this.state.users.filter((user) => user.role !== 'master');
+
+        console.log(this.props.master, this.props.players);
 
         return (
-            <div >
+            <div>
                 <List>
                     {
                         // operatore ternario
                         // condizione ? se vera : se falsa
                         // condizione ? se vera : condizione === condizione && se vera
                         // condizione ? condizione : se falsa === condizione || se falsa
-                        masters.length
+                        !!this.props.master
                         &&
                         <React.Fragment>
                             <ListItem button >
                                 <ListItemIcon><MailIcon /></ListItemIcon>
-                                <ListItemText primary={masters[0].name} />
+                                <ListItemText primary={this.props.master} />
                             </ListItem>
                             <Divider />
                         </React.Fragment>
                     }
                     {
-                        players.map((user) => {
+                        this.props.players.map((player) => {
                             return (
                                 <ListItem button >
                                     <ListItemIcon><MailIcon /></ListItemIcon>
-                                    <ListItemText primary={user.name} />
+                                    <ListItemText primary={player} />
                                 </ListItem>
                             );
                         })

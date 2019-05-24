@@ -17,7 +17,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Chip from '@material-ui/core/Chip';
 import { ListItemSecondaryAction } from '@material-ui/core';
-
+import User_list from '../UserList/UserList';
 const styles = theme => ({
     menuButton: {
         marginLeft: -12,
@@ -50,37 +50,45 @@ const styles = theme => ({
 
 class Header extends Component {
     state = {
-        WinWord: 'Winner Word',
+        WinWord: 'Wait..',
         username: '',
         left: false,
+        players: [],
+        master: '',
     };
     toggleDrawer = (side, open) => () => {
         this.setState({
             [side]: open,
         });
     };
-    socketConnection = () => {
+
+    componentDidMount() {
         var socket = this.props.socket
-        //sostituire msg con la parola da disegnare
-        let receiveUsername = (_usr) => {
-            this.setState({
-                username: _usr,
-            })
-        }
         let receiveWinWord = (_word) => {
             this.setState({
                 WinWord: _word,
             })
         }
-        socket.on('chat message', function (usr) {
-            receiveUsername((usr.username))
+        let receiveUsername = (_usr) => {
+            this.setState({
+                username: _usr,
+            })
+        }
+        let receiveAllPlayers = (_players, _master) => {
+            this.setState({
+                players: _players,
+                master: _master,
+            })
+        }
+        socket.on('myUsername', function (usr) {
+            receiveUsername(usr.username)
         })
         socket.on('word', function (word) {
-            receiveUsername((word))
+            receiveWinWord(word.word)
         })
-    }
-    componentDidMount() {
-        this.socketConnection()
+        socket.on('play', function (play) {
+            receiveAllPlayers(play.player,play.master)
+        })
     }
     render() {
         const { classes } = this.props;
@@ -135,7 +143,7 @@ class Header extends Component {
                         onClick={this.toggleDrawer('left', false)}
                         onKeyDown={this.toggleDrawer('left', false)}
                     >
-                        {sideList}
+                        <User_list players={ this.state.players} master={ this.state.master} />
                     </div>
                 </Drawer>
             </React.Fragment>

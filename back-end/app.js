@@ -27,30 +27,58 @@ var WORDS = [
 
 // array of names for users
 var NAMES = [
-  "ciccio", "boro", "er ciavatta", "er ciofeca", "mi'zia", "secco", "tu'madre",
-  "caciarone", "er cipolla"
+  "ciccio", "boro", "er'ciavatta", "er'ciofeca", "mi'zia", "secco", "tu'madre",
+  "caciarone", "er'cipolla"
 ];
 
-randomNumb = Math.floor(Math.random() * WORDS.length);
+var randomNumb,
+    i = 0,
+    start = false
+    waitPlayers = [];
+
+// array of all lines drawn
+var line_history = [];
 
 // add directory with our static files
 app.use(express.static(__dirname + '/public'));
 console.log("Server running on 127.0.0.1:8080");
 
-// array of all lines drawn
-var line_history = [];
+
 
 // event-handler for new incoming connections
 io.on('connection', function (socket) {
 
-  // list of connected user
-  let connectedUsersArray = Object.keys(io.sockets.sockets);
-  // array of all player
-  let allPlayer = connectedUsersArray.map((user) => user.username)
-  // assign random username to new connected user
+
+
+  /*if (i <= 8) {
+    if (start) {
+      socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
+      waitPlayers.push(socket.username);
+      socket.emit('started', { waitPlayers: waitPlayers } );
+    }
+    else {
+      socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
+      i++;
+    }
+  }
+  else {
+    socket.emit('full', { message: "players limit reached" } );
+  }*/
+  if (start) {
+    socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
+    waitPlayers.push(socket.username);
+    socket.emit('started', { waitPlayers: waitPlayers } );
+  }
+
   socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
+
+  let connectedUsersArray = Object.values(io.sockets.sockets);
+  // array of all player
+  let allPlayer = connectedUsersArray.map((socket) => socket.username);
+
   // emit with socket the list of connected user
-  socket.broadcast.emit('connect', { totUser: connectedUsersArray.lenght, allUser: allPlayer });
+  socket.emit('connect', { totUser: connectedUsersArray.length, allPlayer: allPlayer, myUsername: socket.username });
+  socket.emit('you', { myUsername: socket.myUsername })
 
   // first send the history to the new client
   for (var i in line_history) {
@@ -58,12 +86,38 @@ io.on('connection', function (socket) {
   }
 
   // event start when someone disconnect
-  socket.on('disconnect', function() {
-       // when a user disconnects I will be emitting the new total user
-       let connectedUsersArray = Object.keys(io.sockets.sockets);
-       // emit  with broadcast the new list of users connected
-       socket.broadcast.emit('disconnect', { user: socket.username, totUser: connectedUsersArray.length });
-       console.log('disconnected' + socket.username);
+  socket.on('disconnect', function(data) {
+    // when a user disconnects I will be emitting the new total user
+    connectedUsersArray = Object.values(io.sockets.sockets);
+    // array of all player
+    allPlayer = connectedUsersArray.map((socket) => socket.username)
+    // emit  with broadcast the new list of users connected
+    //socket.broadcast.emit('disconnect', { user: socket.username, totUser: connectedUsersArray.length, allPlayer: allPlayer });
+    console.log('disconnected' + socket.username);
+   });
+
+   // event start when recive a message from frontEnd
+   socket.on('start', function (data) {
+     var master = allPlayer[Math.floor(Math.random() * allPlayer.length)];
+     var player = allPlayer.filter((player) => player !== master)
+     randomNumb = Math.floor(Math.random() * WORDS.length);
+     io.sockets.emit('start', { username: socket.username } );
+
+     var counter = 10;
+     var startCountdown = setInterval(function(){
+       io.sockets.emit('counterStart', { counterStart: counter } );
+       counter--;
+       console.log(counter)
+       if (counter === 0) {
+         io.sockets.emit('play', {  master: master, player: player, status: false });
+         io.sockets.emit('word', { word: WORDS[randomNumb] });
+         console.log('emesso status')
+         console.log('emessa winword: '+WORDS[randomNumb])
+         start = true;
+
+         clearInterval(startCountdown);
+       }
+     }, 1000);
    });
 
   // add handler for message type "draw_line".
@@ -76,14 +130,14 @@ io.on('connection', function (socket) {
 
   // add handler for message type "chat".
   socket.on('chat message', function (data) {
-    console.log("ciaos");
     if( data == WORDS[randomNumb] ){
       // send data of winner user and word
-      io.sockets.emit('chat message', { type: "success", win: true, winner: socket.username, winWord: WORDS[randomNumb] })
+      console.log('you win');
+      io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, win: true, winner: socket.username, winWord: WORDS[randomNumb] });
     }
     else {
       // send message to all clients
-      io.sockets.emit('chat message', { type: "info", message: data, username: socket.username })
+      io.sockets.emit('chat message', { type: "info", message: data, username: socket.username });
     }
   });
 

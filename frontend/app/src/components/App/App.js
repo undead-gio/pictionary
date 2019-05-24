@@ -4,8 +4,7 @@ import Canvas from '../Canvas/Canvas';
 import Chat from '../Chat/Chat';
 import UserList from '../UserList/UserList';
 import Lobby from '../Lobby/Lobby'
-import Word from '../Word/Word';
-import Timer from '../Timer/Timer'
+import Dialog from '../Dialog/Dialog'
 import Header from '../Header/Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './App.scss'
@@ -32,35 +31,38 @@ class App extends Component {
     console.log(props)
     this.state = {
       master: null,
+      username:'',
     };
 
   }
   socketConnection = () => {
-    var socket = this.props.socket
+    
     //sostituire msg con la parola da disegnare
-    let receiveMaster = (master) => {
+    let receiveUsername = (_usr) => {
       this.setState({
-        master: master,
+        username: _usr,
       })
     }
-    socket.on('start', function (master) {
-      receiveMaster((master))
-    })
+    socket.emit('connection');
+    socket.on('connect', function (usr) {
+      console.log(usr)
+  })
   }
   componentDidMount() {
-    //this.socketConnection()
+    this.socketConnection()
   }
   render() {
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
           {/*<Lobby  socket={socket} user={1}/>*/}
-          <Header
+          <Dialog
             socket={socket}
             user={1}
           />
-          <Word
+          <Header
             socket={socket}
+            username={this.state.username}
             user={1}
           />
           <Canvas
