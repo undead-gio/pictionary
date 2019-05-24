@@ -32,7 +32,6 @@ var NAMES = [
 ];
 
 var randomNumb,
-    i = 0,
     start = false
     waitPlayers = [];
 
@@ -48,36 +47,19 @@ console.log("Server running on 127.0.0.1:8080");
 // event-handler for new incoming connections
 io.on('connection', function (socket) {
 
+  socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
 
-
-  /*if (i <= 8) {
-    if (start) {
-      socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
-      waitPlayers.push(socket.username);
-      socket.emit('started', { waitPlayers: waitPlayers } );
-    }
-    else {
-      socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
-      i++;
-    }
-  }
-  else {
-    socket.emit('full', { message: "players limit reached" } );
-  }*/
   if (start) {
-    socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
     waitPlayers.push(socket.username);
     socket.emit('started', { waitPlayers: waitPlayers } );
   }
 
-  socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
-
-  let connectedUsersArray = Object.values(io.sockets.sockets);
+  let connectedUsers = Object.values(io.sockets.sockets);
   // array of all player
-  let allPlayer = connectedUsersArray.map((socket) => socket.username);
+  let allPlayers = connectedUsers.map((socket) => socket.username);
 
   // emit with socket the list of connected user
-  socket.emit('connect', { totUser: connectedUsersArray.length, allPlayer: allPlayer, myUsername: socket.username });
+  socket.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
   socket.emit('myUsername', { myUsername: socket.myUsername })
 
   // first send the history to the new client
@@ -88,18 +70,18 @@ io.on('connection', function (socket) {
   // event start when someone disconnect
   socket.on('disconnect', function(data) {
     // when a user disconnects I will be emitting the new total user
-    connectedUsersArray = Object.values(io.sockets.sockets);
+    connectedUsers = Object.values(io.sockets.sockets);
     // array of all player
-    allPlayer = connectedUsersArray.map((socket) => socket.username)
+    allPlayers = connectedUsers.map((socket) => socket.username)
     // emit  with broadcast the new list of users connected
-    //socket.broadcast.emit('disconnect', { user: socket.username, totUser: connectedUsersArray.length, allPlayer: allPlayer });
-    console.log('disconnected' + socket.username);
+    socket.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
+    console.log('disconnected ' + socket.username);
    });
 
    // event start when recive a message from frontEnd
    socket.on('start', function (data) {
-     var master = allPlayer[Math.floor(Math.random() * allPlayer.length)];
-     var player = allPlayer.filter((player) => player !== master)
+     var master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
+     var players = allPlayers.filter((player) => player !== master)
      randomNumb = Math.floor(Math.random() * WORDS.length);
      io.sockets.emit('start', { username: socket.username } );
 
@@ -108,7 +90,7 @@ io.on('connection', function (socket) {
        io.sockets.emit('counterStart', { counterStart: counter } );
        counter--;
        if (counter === 0) {
-         io.sockets.emit('play', {  master: master, player: player, status: false });
+         io.sockets.emit('play', {  master: master, players: players, status: false });
          io.sockets.emit('word', { word: WORDS[randomNumb] });
          start = true;
 
@@ -131,11 +113,27 @@ io.on('connection', function (socket) {
       // send data of winner user and word
       console.log('you win');
       io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, win: true, winner: socket.username, winWord: WORDS[randomNumb] });
+      start = false;
+      waitPlayers = [];
     }
     else {
       // send message to all clients
       io.sockets.emit('chat message', { type: "info", message: data, username: socket.username });
     }
   });
+
+  socket.on('game counter', function (data) {
+    var counter = 120;
+    var startCountdown = setInterval(function(){
+      io.sockets.emit('counterStart', { gameCounter: counter } );
+      counter--;
+      if (counter === 0) {
+        io.sockets.emit('end', { message: "game over", finish: true });
+        start = false;
+        waitPlayers = [];
+        clearInterval(startCountdown);
+      }
+    }, 1000);
+  })
 
 });
