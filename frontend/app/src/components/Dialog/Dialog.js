@@ -11,7 +11,7 @@ import Lobby from '../Lobby/Lobby';
 class StartDialog extends React.Component {
     state = {
         open: true,
-        allPlayer: []
+        allPlayers: []
     };
     
     socketConnection = () => {
@@ -41,10 +41,11 @@ class StartDialog extends React.Component {
         })
 
         socket.on('connect', function (msg = {}) {
-          let allPlayer = msg.allPlayer || [];
+          let allPlayer = msg.allPlayers || [];
           component.setState({
-            allPlayer: allPlayer
-          })         
+            allPlayers: allPlayer
+          })       
+          console.log(msg.allPlayers)
         })
     }
 
@@ -67,7 +68,7 @@ class StartDialog extends React.Component {
                 socket={this.props.socket}
             />
           </DialogContent>
-          <Lobby allPlayer={this.state.allPlayer}></Lobby>
+          <Lobby allPlayers={this.state.allPlayers}></Lobby>
           <DialogActions>
             <Button onClick={this.handleStart} color="primary" autoFocus>
               Start

@@ -46,7 +46,7 @@ class Lobby extends Component {
                 </Typography>
                     <List>
                         {
-                            this.props.allPlayer.map(function(player) {
+                            this.props.allPlayers.map(function(player) {
                                 return (
                                     <ListItem>
                                         <ListItemAvatar>
@@ -63,10 +63,6 @@ class Lobby extends Component {
                         }
                         
                     </List>
-                    <Fab variant="extended" color="primary" aria-label="Add">
-                        <NavigationIcon />
-                        Play
-                    </Fab>
             </div>
             </Grid>
         );
