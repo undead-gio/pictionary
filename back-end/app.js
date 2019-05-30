@@ -63,7 +63,7 @@ io.on('connection', function (socket) {
   // emit with socket the list of connected user
   io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
   io.sockets.emit('myUsername', { myUsername: socket.username })
-  console.log(socket.username);
+  console.log(allPlayers);
 
   // first send the history to the new client
   for (var i in line_history) {
