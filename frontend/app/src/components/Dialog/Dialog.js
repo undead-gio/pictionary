@@ -7,6 +7,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Timer from '../Timer/Timer'
 import Lobby from '../Lobby/Lobby';
+import Input from '@material-ui/core/Input';
+import { TextField } from '@material-ui/core';
+
 
 
 class StartDialog extends React.Component {
@@ -72,14 +75,31 @@ class StartDialog extends React.Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Start a game"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"Welcome to Soctionary"}</DialogTitle>
           <DialogContent>
+<<<<<<< HEAD
             <DialogContentText id="alert-dialog-description">
               Do you want start a game?
             </DialogContentText>
+=======
+
+            <TextField
+              label="Choose a gametag"
+              defaultValue="yourCoolName"
+              inputProps={{
+              'aria-label': 'username',
+              }}
+            />
+
+>>>>>>> bf04a889c4166c934a9eb24be9934f5cc66644c7
           </DialogContent>
           <Lobby allPlayers={this.state.lobbyPlayers}></Lobby>
           <DialogActions>
+
+          <Timer
+            socket={this.props.socket}
+          />
+
             <Button onClick={this.handleStart} color="primary" autoFocus>
               Start
             </Button>
