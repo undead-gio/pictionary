@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Timer from '../Timer/Timer'
+import TimerPlay from '../Timer/TimerPlay'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -55,6 +55,7 @@ class Header extends Component {
         left: false,
         players: [],
         master: '',
+        isWait: true,
     };
     toggleDrawer = (side, open) => () => {
         this.setState({
@@ -80,6 +81,12 @@ class Header extends Component {
                 master: _master,
             })
         }
+        let handlePlay = (status) => {
+            this.setState({
+              isWait: status,
+            })
+            console.log('emesso play:' + status)
+          }
         socket.on('myUsername', function (usr) {
             receiveUsername(usr.username)
             console.log('string '+usr.username)
@@ -131,7 +138,7 @@ class Header extends Component {
                             className={classes.chip}
                             color="primary"
                         />
-                        <Timer
+                        <TimerPlay
                             socket={this.props.socket}
                             user={1}
                         />
