@@ -55,7 +55,7 @@ class StartDialog extends React.Component {
     })
 
 
-    socket.on('connect', function (msg = {}) {
+    socket.on('on', function (msg = {}) {
       let allPlayer = msg.allPlayers || [];
       component.setState({
         lobbyPlayers: allPlayer
