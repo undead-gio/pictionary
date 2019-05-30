@@ -134,7 +134,7 @@ io.on('connection', function (socket) {
   socket.on('game counter', function (data) {
     var counter = 120;
     var startCountdown = setInterval(function(){
-      io.sockets.emit('game counter', { gameCounter: counter } );
+      io.sockets.emit('counterStart', { counterStart: counter } );
       counter--;
       if (counter === 0) {
         io.sockets.emit('end', { message: "game over", finish: true });
