@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-import { SnackbarProvider, withSnackbar } from 'notistack';
-import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
-import Fab from '@material-ui/core/Fab';
-import SendIcon from '@material-ui/icons/Send';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import { Divider } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+import BrushIcon from '@material-ui/icons/Brush';
+import PersonIcon from '@material-ui/icons/Person';
 
 class User_list extends React.Component {
 
@@ -36,7 +28,7 @@ class User_list extends React.Component {
                         &&
                         <React.Fragment>
                             <ListItem button >
-                                <ListItemIcon><MailIcon /></ListItemIcon>
+                                <ListItemIcon><BrushIcon /></ListItemIcon>
                                 <ListItemText primary={this.props.master} />
                             </ListItem>
                             <Divider />
@@ -46,7 +38,7 @@ class User_list extends React.Component {
                         this.props.players.map((player) => {
                             return (
                                 <ListItem button >
-                                    <ListItemIcon><MailIcon /></ListItemIcon>
+                                    <ListItemIcon><PersonIcon /></ListItemIcon>
                                     <ListItemText primary={player} />
                                 </ListItem>
                             );
