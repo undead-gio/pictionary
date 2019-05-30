@@ -23,13 +23,11 @@ class Timer extends React.Component {
     };
     componentDidMount() {
         var socket = this.props.socket
-        let updateTimer = (time) => {
-            this.setState({
-                completed: time,
-            })
-        }
+        var component = this
         socket.on('counterGame', function (time) {
-            updateTimer(time.counterGame*10)
+            component.setState({
+                completed: (time.counterGame)
+            })
         })
     }
     componentWillUnmount(){
