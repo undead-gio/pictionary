@@ -28,13 +28,12 @@ class Timer extends React.Component {
                 completed: time,
             })
         }
-        socket.on('counterStart', function (time) {
-            updateTimer(time.counterStart*10)
+        socket.on('counterGame', function (time) {
+            updateTimer(time.counterGame*10)
         })
     }
     componentWillUnmount(){
-        var socket = this.props.socket
-        socket.emit('game counter')
+
     }
     render() {
         const { classes } = this.props;

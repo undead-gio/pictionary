@@ -77,9 +77,6 @@ class StartDialog extends React.Component {
             <DialogContentText id="alert-dialog-description">
               Do you want start a game?
             </DialogContentText>
-            <Timer
-              socket={this.props.socket}
-            />
           </DialogContent>
           <Lobby allPlayers={this.state.lobbyPlayers}></Lobby>
           <DialogActions>

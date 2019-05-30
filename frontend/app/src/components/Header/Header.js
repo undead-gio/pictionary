@@ -138,7 +138,7 @@ class Header extends Component {
                             className={classes.chip}
                             color="primary"
                         />
-                        <TimerPlay
+                        <Timer
                             socket={this.props.socket}
                             user={1}
                         />
