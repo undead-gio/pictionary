@@ -32,8 +32,10 @@ var NAMES = [
 ];
 
 var randomNumb,
-    start = false
-    waitPlayers = [];
+    start = false,
+    waitPlayers = [],
+    master,
+    players;
 
 // array of all lines drawn
 var line_history = [];
@@ -51,7 +53,7 @@ io.on('connection', function (socket) {
 
   if (start) {
     waitPlayers.push(socket.username);
-    socket.emit('started', { waitPlayers: waitPlayers } );
+    io.sockets.emit('started', { waitPlayers: waitPlayers, master: master, players: players } );
   }
 
   let connectedUsers = Object.values(io.sockets.sockets);
@@ -59,8 +61,8 @@ io.on('connection', function (socket) {
   let allPlayers = connectedUsers.map((socket) => socket.username);
 
   // emit with socket the list of connected user
-  socket.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
-  socket.emit('myUsername', { myUsername: socket.username })
+  io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
+  io.sockets.emit('myUsername', { myUsername: socket.username })
   console.log(socket.username);
 
   // first send the history to the new client
@@ -75,14 +77,12 @@ io.on('connection', function (socket) {
     // array of all player
     allPlayers = connectedUsers.map((socket) => socket.username)
     // emit  with broadcast the new list of users connected
-    socket.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
+    io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
     console.log('disconnected ' + socket.username);
    });
 
    // event start when recive a message from frontEnd
    socket.on('start', function (data) {
-     var master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
-     var players = allPlayers.filter((player) => player !== master)
      randomNumb = Math.floor(Math.random() * WORDS.length);
      io.sockets.emit('start', { username: socket.username, statusStart: true } );
 
@@ -91,6 +91,8 @@ io.on('connection', function (socket) {
        io.sockets.emit('counterStart', { counterStart: counter } );
        counter--;
        if (counter === 0) {
+         master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
+         players = allPlayers.filter((player) => player !== master);
          io.sockets.emit('play', {  master: master, players: players, status: false });
          io.sockets.emit('word', { word: WORDS[randomNumb] });
          start = true;
@@ -98,6 +100,10 @@ io.on('connection', function (socket) {
          clearInterval(startCountdown);
        }
      }, 1000);
+   });
+
+   socket.on('secondStart', function (data) {
+     io.sockets.emit('play', {  master: master, players: players});
    });
 
   // add handler for message type "draw_line".
@@ -116,6 +122,8 @@ io.on('connection', function (socket) {
       io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, win: true, winner: socket.username, winWord: WORDS[randomNumb] });
       start = false;
       waitPlayers = [];
+      master = "";
+      players = [];
     }
     else {
       // send message to all clients
@@ -126,12 +134,14 @@ io.on('connection', function (socket) {
   socket.on('game counter', function (data) {
     var counter = 120;
     var startCountdown = setInterval(function(){
-      io.sockets.emit('counterStart', { gameCounter: counter } );
+      io.sockets.emit('game counter', { gameCounter: counter } );
       counter--;
       if (counter === 0) {
         io.sockets.emit('end', { message: "game over", finish: true });
         start = false;
         waitPlayers = [];
+        master = "";
+        players = [];
         clearInterval(startCountdown);
       }
     }, 1000);
