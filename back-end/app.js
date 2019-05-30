@@ -63,7 +63,7 @@ io.on('connection', function (socket) {
   // emit with socket the list of connected user
   io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
   io.sockets.emit('myUsername', { myUsername: socket.username })
-  console.log(allPlayers);
+  console.log(socket.username);
 
   // first send the history to the new client
   for (var i in line_history) {
@@ -77,7 +77,7 @@ io.on('connection', function (socket) {
     // array of all player
     allPlayers = connectedUsers.map((socket) => socket.username)
     // emit  with broadcast the new list of users connected
-    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
+    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players });
     console.log('disconnected ' + socket.username);
    });
 
@@ -103,7 +103,7 @@ io.on('connection', function (socket) {
    });
 
    socket.on('secondStart', function (data) {
-     io.sockets.emit('play', {  master: master, players: players});
+     io.sockets.emit('play', {  master: master, players: players });
    });
 
   // add handler for message type "draw_line".
@@ -134,7 +134,7 @@ io.on('connection', function (socket) {
   socket.on('game counter', function (data) {
     var counter = 120;
     var startCountdown = setInterval(function(){
-      io.sockets.emit('game counter', { gameCounter: counter } );
+      io.sockets.emit('counterGame', { counterGame: counter } );
       counter--;
       if (counter === 0) {
         io.sockets.emit('end', { message: "game over", finish: true });

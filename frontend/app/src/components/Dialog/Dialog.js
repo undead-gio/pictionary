@@ -24,32 +24,32 @@ class StartDialog extends React.Component {
   handleStart = () => {
     var socket = this.props.socket
     if (this.state.isStarted) {
-      
+      socket.emit('secondStart');
     } else {socket.emit('start'); }
   };
   componentDidMount() {
     var socket = this.props.socket
     var component = this
+    if(!this.state.open){
+      socket.emit('game counter')
+    }
     this.socketConnection()
     let handlePlay = (status) => {
       this.setState({
         open: status,
       })
-      console.log('emesso play:' + status)
     }
     let handleStartClick = (status) => {
       this.setState({
         isStarted: status,
       })
-      console.log('emesso play:' + status)
     }
     socket.on('start', function (start) {
       handleStartClick(start.statusStart)
-      console.log('qualcuno ha cliccato start: ' + start.statusStart)
     })
     socket.on('play', function (play) {
       handlePlay(play.status)
-
+      
     })
 
 
