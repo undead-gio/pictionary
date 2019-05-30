@@ -66,6 +66,7 @@ io.on('connection', function (socket) {
     socket.emit('draw', { line: line_history[i] } );
   }
 
+
   // event start when someone disconnect
   socket.on('disconnect', function(data) {
     if(socket.username == master){
@@ -100,6 +101,10 @@ io.on('connection', function (socket) {
      io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
      io.sockets.emit('word', { word: WORDS[randomNumb] });
      //console.log(allPlayers)
+       //pass to frontend the type of player
+    if(socket.username== master){
+      socket.emit('isMaster',{isMaster:true})
+    } else{socket.emit('isMaster',{isMaster:false}) }
    });
 
   // add handler for message type "draw_line".
