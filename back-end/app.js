@@ -69,6 +69,13 @@ io.on('connection', function (socket) {
 
   // event start when someone disconnect
   socket.on('disconnect', function(data) {
+    if(socket.username == master){
+      allPlayers = connectedUsers.map((socket) => socket.username);
+      master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
+      io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
+      console.log(master + "new master")
+      console.log(players)
+    }
     // when a user disconnects I will be emitting the new total user
     connectedUsers = Object.values(io.sockets.sockets);
     // array of all player
@@ -83,8 +90,7 @@ io.on('connection', function (socket) {
    socket.on('start', function (data) {
      socket.username = data.username;
      connectedUsers = Object.values(io.sockets.sockets);
-  // array of all player
-    allPlayers = connectedUsers.map((socket) => socket.username);
+     allPlayers = connectedUsers.map((socket) => socket.username);
      if(!start){
        randomNumb = Math.floor(Math.random() * WORDS.length);
        master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
@@ -94,7 +100,7 @@ io.on('connection', function (socket) {
      players = allPlayers.filter((player) => player !== master);
      io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
      io.sockets.emit('word', { word: WORDS[randomNumb] });
-     console.log(allPlayers)
+     //console.log(allPlayers)
    });
 
   // add handler for message type "draw_line".
