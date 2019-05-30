@@ -51,9 +51,14 @@ io.on('connection', function (socket) {
 
   socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
 
+  /*socket.on('select username', function(data) {
+    socket.username = data;
+  });*/
+
   if (start) {
     waitPlayers.push(socket.username);
-    io.sockets.emit('started', { waitPlayers: waitPlayers, master: master, players: players } );
+    io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, waitPlayers: waitPlayers, master: master, players: players, start: start });
+    //io.sockets.emit('started', { waitPlayers: waitPlayers, master: master, players: players } );
   }
 
   let connectedUsers = Object.values(io.sockets.sockets);
@@ -61,9 +66,7 @@ io.on('connection', function (socket) {
   let allPlayers = connectedUsers.map((socket) => socket.username);
 
   // emit with socket the list of connected user
-  io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
-  io.sockets.emit('myUsername', { myUsername: socket.username })
-  console.log(socket.username);
+  io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start });
 
   // first send the history to the new client
   for (var i in line_history) {
@@ -75,10 +78,12 @@ io.on('connection', function (socket) {
     // when a user disconnects I will be emitting the new total user
     connectedUsers = Object.values(io.sockets.sockets);
     // array of all player
-    allPlayers = connectedUsers.map((socket) => socket.username)
+    allPlayers = connectedUsers.map((socket) => socket.username);
+    players = allPlayers.filter((player) => player !== master);
     // emit  with broadcast the new list of users connected
-    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players });
+    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players, waitPlayers: waitPlayers });
     console.log('disconnected ' + socket.username);
+    console.log(master + " " + players)
    });
 
    // event start when recive a message from frontEnd
