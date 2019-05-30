@@ -127,10 +127,9 @@ io.on('connection', function (socket) {
   });
 
   socket.on('game counter', function (data) {
-    var counter = 120;
+    var counter = 100;
     var startCountdown = setInterval(function(){
       io.sockets.emit('counterGame', { counterGame: counter } );
-      console.log(counter)
       counter--;
       if (counter === 0) {
         io.sockets.emit('end', { message: "game over", finish: true });
@@ -139,7 +138,7 @@ io.on('connection', function (socket) {
         players = [];
         clearInterval(startCountdown);
       }
-    }, 1000);
+    }, 1500);
   })
 
 });
