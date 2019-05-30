@@ -32,9 +32,6 @@ class StartDialog extends React.Component {
   componentDidMount() {
     var socket = this.props.socket
     var component = this
-    if(!this.state.open){
-      socket.emit('game counter')
-    }
     this.socketConnection()
     let handlePlay = (status) => {
       this.setState({
