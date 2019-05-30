@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Timer from '../Timer/Timer'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -63,39 +64,33 @@ class Header extends Component {
 
     componentDidMount() {
         var socket = this.props.socket
-        let receiveWinWord = (_word) => {
-            this.setState({
-                WinWord: _word,
+        var component = this
+        if(this.props.gameIsStart){  
+            socket.on('on', function (usr) {
+                component.setState({
+                    username: usr.myUsername,
+                })
+                console.log('lo username da on '+usr.myUsername)
             })
         }
-        let receiveUsername = (_usr) => {
-            this.setState({
-                username: _usr,
-            })
-        }
-        let receiveAllPlayers = (_players, _master) => {
-            this.setState({
-                players: _players,
-                master: _master,
-            })
-        }
-        let handlePlay = (status) => {
-            this.setState({
-              isWait: status,
-            })
-            console.log('emesso play:' + status)
-          }
-        socket.on('myUsername', function (usr) {
-            receiveUsername(usr.username)
-            console.log('string '+usr.username)
-        })
         socket.on('word', function (word) {
-            receiveWinWord(word.word)
+            component.setState({
+                WinWord: word.word,
+            })
         })
         socket.on('play', function (play) {
-            receiveAllPlayers(play.players,play.master)
+            component.setState({
+                players: play.players,
+                master: play.master,
+            })
         })
     }
+    componentWillReceiveProps(nextProps){
+        var socket = this.props.socket
+        if(nextProps.gameIsStart){
+            socket.emit('game counter')
+        }
+      }
     render() {
         const { classes } = this.props;
         //dentro sidelist come ListItema possiamo inserire quasi tutto quello che vogliamo
@@ -136,10 +131,10 @@ class Header extends Component {
                             className={classes.chip}
                             color="primary"
                         />
-                        {/*<Timer
+                        <Timer
                             socket={this.props.socket}
                             user={1}
-                        />*/}
+                        />
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
