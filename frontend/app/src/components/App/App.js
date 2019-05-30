@@ -79,6 +79,7 @@ class App extends Component {
           />
           <Canvas
             socket={socket}
+            isMaster={this.state.isMaster}
             gameIsStart={this.state.gameIsStart}
           />
           <Chat

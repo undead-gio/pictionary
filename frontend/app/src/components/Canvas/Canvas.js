@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 class Canvas extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props)
+    this.state = {
+        isMaster: this.props.isMaster,
+    };
+
+  }
   canvasDrawing = () => {
     //initial settings
     var mouse = {
@@ -46,11 +54,31 @@ class Canvas extends Component {
     mainLoop();
   }
   componentDidMount() {
+    var socket = this.props.socket
+    var component = this
+    socket.on('isMaster', function (data) {
+      component.setState({
+        isMaster: data.isMaster
+      })
+    })
     this.canvasDrawing()
+
   }
   render() {
+    let deactivate
+    if (!this.state.isMaster) {
+      deactivate = {
+        height: '100%',
+        background: 'rgba(158, 158, 158, 0.03)',
+        width: '100%',
+        position: 'absolute',
+        bottom: '0',
+        zIndex: '1',
+      };
+    }
     return (
       <div className="Canvas" >
+        <div style={deactivate}></div>
         <canvas id="drawing"></canvas>
       </div>
     );
