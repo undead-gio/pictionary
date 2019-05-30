@@ -49,11 +49,11 @@ console.log("Server running on 127.0.0.1:8080");
 // event-handler for new incoming connections
 io.on('connection', function (socket) {
 
-  //socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
+  socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
 
-  socket.on('select username', function(data) {
+  /*socket.on('select username', function(data) {
     socket.username = data;
-  });
+  });*/
 
   if (start) {
     waitPlayers.push(socket.username);
