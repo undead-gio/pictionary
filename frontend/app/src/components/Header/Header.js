@@ -44,6 +44,13 @@ const styles = theme => ({
     },
     chip: {
         marginRight: theme.spacing.unit,
+        position: 'absolute',
+        top: '8vh',
+        width: '10%',
+        fontSize:'large',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
     }
 });
 
@@ -55,6 +62,7 @@ class Header extends Component {
         players: [],
         master: '',
         isWait: true,
+        isMaster:this.props.isMaster,
     };
     toggleDrawer = (side, open) => () => {
         this.setState({
@@ -76,6 +84,11 @@ class Header extends Component {
                 master: play.master,
             })
         })
+        socket.on('isMaster', function (data) {
+            component.setState({
+              isMaster: data.isMaster
+            })
+          })
     }
     componentWillReceiveProps(nextProps){
         var socket = this.props.socket
@@ -90,24 +103,12 @@ class Header extends Component {
       }
     render() {
         const { classes } = this.props;
-        //dentro sidelist come ListItema possiamo inserire quasi tutto quello che vogliamo
-        const sideList = (
-            <div className={classes.list}>
-                <List>
-                    <ListItem button >
-                        <ListItemIcon><InboxIcon /></ListItemIcon>
-                        <ListItemText primary='Inbox' />
-                    </ListItem>
-                </List>
-                <Divider />
-                <List>
-                    <ListItem button >
-                        <ListItemIcon><MailIcon /></ListItemIcon>
-                        <ListItemText primary='Mail' />
-                    </ListItem>
-                </List>
-            </div>
-        );
+        let winWord
+        if (this.state.isMaster) {
+            winWord = <Chip label={this.state.WinWord} className={classes.chip} color="primary" />
+          } else { }
+        
+        
         return (
             <React.Fragment>
                 <AppBar position="fixed" color="primary">
@@ -123,11 +124,7 @@ class Header extends Component {
                         </Typography>
                     </Toolbar>
                     <Toolbar variant="dense" className={classes.subHeader} >
-                        <Chip
-                            label={this.state.WinWord}
-                            className={classes.chip}
-                            color="primary"
-                        />
+                        {winWord}
                         <Timer
                             socket={this.props.socket}
                             user={1}
