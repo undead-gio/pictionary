@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import BrushIcon from '@material-ui/icons/Brush';
 import PersonIcon from '@material-ui/icons/Person';
 
-class User_list extends React.Component {
+class UserList extends React.Component {
 
     render() {
 
@@ -50,7 +50,7 @@ class User_list extends React.Component {
     }
 }
 
-export default User_list;
+export default UserList;
 
 // Usage
 // import User_list from './UserList'

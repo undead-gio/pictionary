@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 import Chip from '@material-ui/core/Chip';
-import User_list from '../UserList/UserList';
+import UserList from '../UserList/UserList';
 const styles = theme => ({
     menuButton: {
         marginLeft: -12,
@@ -129,7 +129,7 @@ class Header extends Component {
                         onClick={this.toggleDrawer('left', false)}
                         onKeyDown={this.toggleDrawer('left', false)}
                     >
-                        <User_list players={this.state.players} master={this.state.master} />
+                        <UserList players={this.state.players} master={this.state.master} />
                     </div>
                 </Drawer>
             </React.Fragment>
