@@ -31,6 +31,7 @@ class App extends Component {
       username: '',
       gameIsStart: false,
       isMaster:false,
+      isFinish:false,
     };
 
   }
@@ -54,6 +55,11 @@ class App extends Component {
           isMaster:data.isMaster
         })
     })
+    socket.on('end', function(data){
+        component.setState({
+          isFinish:data.finish
+        })
+    })
     if (this.state.gameIsStart) {
       socket.emit('game counter')
       console.log('inizia la partita')
@@ -63,6 +69,9 @@ class App extends Component {
     this.socketConnection()
   }
   render() {
+    if(this.state.isFinish){
+      alert('Game Over')
+    }
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
