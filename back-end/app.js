@@ -48,7 +48,7 @@ console.log("Server running on 127.0.0.1:8080");
 // event-handler for new incoming connections
 io.on('connection', function (socket) {
 
-  socket.username = NAMES[Math.floor(Math.random() * 1000)];
+  socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
 
 /*  socket.on('select username', function(data) {
     socket.username = data;
@@ -60,7 +60,7 @@ io.on('connection', function (socket) {
   let allPlayers = connectedUsers.map((socket) => socket.username);
 
   // emit with socket the list of connected user
-  io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start });
+  io.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start });
 
   // first send the history to the new client
   for (var i in line_history) {
@@ -75,7 +75,7 @@ io.on('connection', function (socket) {
     allPlayers = connectedUsers.map((socket) => socket.username);
     players = allPlayers.filter((player) => player !== master);
     // emit  with broadcast the new list of users connected
-    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players, waitPlayers: waitPlayers });
+    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players });
     console.log('disconnected ' + socket.username);
    });
 
