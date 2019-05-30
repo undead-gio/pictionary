@@ -5,7 +5,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Timer from '../Timer/Timer'
 import Lobby from '../Lobby/Lobby';
 import Input from '@material-ui/core/Input';
 import { TextField } from '@material-ui/core';
@@ -15,7 +14,8 @@ import { TextField } from '@material-ui/core';
 class StartDialog extends React.Component {
   state = {
     open: true,
-    lobbyPlayers: []
+    lobbyPlayers: [],
+    username: '',
   };
 
   socketConnection = () => {
@@ -26,9 +26,8 @@ class StartDialog extends React.Component {
 
   handleStart = () => {
     var socket = this.props.socket
-    if (this.state.isStarted) {
-      socket.emit('secondStart');
-    } else {socket.emit('start'); }
+    console.log(this.state.username)
+    socket.emit('start', {username: this.state.username})
   };
   componentDidMount() {
     var socket = this.props.socket
@@ -65,6 +64,12 @@ class StartDialog extends React.Component {
     })
   }
 
+  handleChange = event => {
+    this.setState({
+      username: event.target.value,
+    })
+  }
+
 
   render() {
     return (
@@ -80,19 +85,20 @@ class StartDialog extends React.Component {
 
             <TextField
               label="Choose a gametag"
-              defaultValue="yourCoolName"
               inputProps={{
               'aria-label': 'username',
               }}
+              value={this.state.username}
+              onChange={this.handleChange}
             />
 
           </DialogContent>
           <Lobby allPlayers={this.state.lobbyPlayers}></Lobby>
           <DialogActions>
 
-          <Timer
+          {/*<Timer
             socket={this.props.socket}
-          />
+          />*/}
 
             <Button onClick={this.handleStart} color="primary" autoFocus>
               Start

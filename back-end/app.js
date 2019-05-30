@@ -48,7 +48,7 @@ console.log("Server running on 127.0.0.1:8080");
 // event-handler for new incoming connections
 io.on('connection', function (socket) {
 
-  socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
+  //socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
 
 /*  socket.on('select username', function(data) {
     socket.username = data;
@@ -82,6 +82,9 @@ io.on('connection', function (socket) {
    // event start when recive a message from frontEnd
    socket.on('start', function (data) {
      socket.username = data.username;
+     connectedUsers = Object.values(io.sockets.sockets);
+  // array of all player
+    allPlayers = connectedUsers.map((socket) => socket.username);
      if(!start){
        randomNumb = Math.floor(Math.random() * WORDS.length);
        master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
@@ -91,6 +94,7 @@ io.on('connection', function (socket) {
      players = allPlayers.filter((player) => player !== master);
      io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
      io.sockets.emit('word', { word: WORDS[randomNumb] });
+     console.log(allPlayers)
    });
 
   // add handler for message type "draw_line".

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import TimerPlay from '../Timer/TimerPlay'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -137,10 +136,10 @@ class Header extends Component {
                             className={classes.chip}
                             color="primary"
                         />
-                        <Timer
+                        {/*<Timer
                             socket={this.props.socket}
                             user={1}
-                        />
+                        />*/}
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
