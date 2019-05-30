@@ -82,12 +82,13 @@ class Header extends Component {
         }
         socket.on('myUsername', function (usr) {
             receiveUsername(usr.username)
+            console.log('string '+usr.username)
         })
         socket.on('word', function (word) {
             receiveWinWord(word.word)
         })
         socket.on('play', function (play) {
-            receiveAllPlayers(play.player,play.master)
+            receiveAllPlayers(play.players,play.master)
         })
     }
     render() {
