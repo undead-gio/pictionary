@@ -77,7 +77,7 @@ io.on('connection', function (socket) {
     // array of all player
     allPlayers = connectedUsers.map((socket) => socket.username)
     // emit  with broadcast the new list of users connected
-    io.sockets.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
+    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
     console.log('disconnected ' + socket.username);
    });
 
