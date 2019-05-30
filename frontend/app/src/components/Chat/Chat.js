@@ -38,6 +38,7 @@ class MsgReceiver extends Component {
   //receive and show message from socket
   socketConnection = () => {
     var socket = this.props.socket
+    var component = this
     let receiveMsg = (_msg, type) => {
       this.props.enqueueSnackbar(_msg, {
         anchorOrigin: {
@@ -50,6 +51,11 @@ class MsgReceiver extends Component {
     }
     socket.on('chat message', function (msg) {
       receiveMsg((msg.username + ' / ' + msg.message), msg.type)
+    })
+    socket.on('isMaster', function (data) {
+      component.setState({
+        isMaster: data.isMaster
+      })
     })
   }
   //send message to socket
@@ -67,10 +73,24 @@ class MsgReceiver extends Component {
   componentDidMount() {
     this.socketConnection()
   }
+
   render() {
+    let deactivate
+    if (this.state.isMaster) {
+      deactivate = {
+        height: '100%',
+        background: '#9e9e9ebf',
+        width: '100%',
+        position: 'absolute',
+        bottom: '0',
+        zIndex: '9999',
+      };
+    }
     return (
       <React.Fragment>
+
         <AppBar position="fixed" color="primary" className={this.props.classes.appBar}>
+          <div style={deactivate}></div>
           <Toolbar >
             <TextField
               id="outlined-full-width"

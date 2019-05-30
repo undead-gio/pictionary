@@ -30,6 +30,7 @@ class App extends Component {
       master: null,
       username: '',
       gameIsStart: false,
+      isMaster:false,
     };
 
   }
@@ -47,6 +48,12 @@ class App extends Component {
         gameIsStart: usr.gameIsStart,
       })
     })
+    socket.on('isMaster', function(data){
+      console.log('master',data.isMaster)
+        component.setState({
+          isMaster:data.isMaster
+        })
+    })
     if (this.state.gameIsStart) {
       socket.emit('game counter')
       console.log('inizia la partita')
@@ -62,24 +69,20 @@ class App extends Component {
           {/*<Lobby  socket={socket} user={1}/>*/}
           <Dialog
             socket={socket}
-            user={1}
             action={this.saveUsername.bind(this)}
             gameIsStart={this.state.gameIsStart}
           />
           <Header
             socket={socket}
             username={this.state.username}
-            user={1}
             gameIsStart={this.state.gameIsStart}
           />
           <Canvas
             socket={socket}
-            user={1}
             gameIsStart={this.state.gameIsStart}
           />
           <Chat
             socket={socket}
-            user={1}
             gameIsStart={this.state.gameIsStart}
           />
         </MuiThemeProvider>
