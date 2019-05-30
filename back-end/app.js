@@ -60,7 +60,8 @@ io.on('connection', function (socket) {
 
   // emit with socket the list of connected user
   socket.emit('connect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username });
-  socket.emit('myUsername', { myUsername: socket.myUsername })
+  socket.emit('myUsername', { myUsername: socket.username })
+  console.log(socket.username);
 
   // first send the history to the new client
   for (var i in line_history) {
@@ -83,7 +84,7 @@ io.on('connection', function (socket) {
      var master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
      var players = allPlayers.filter((player) => player !== master)
      randomNumb = Math.floor(Math.random() * WORDS.length);
-     io.sockets.emit('start', { username: socket.username } );
+     io.sockets.emit('start', { username: socket.username, statusStart: true } );
 
      var counter = 10;
      var startCountdown = setInterval(function(){
