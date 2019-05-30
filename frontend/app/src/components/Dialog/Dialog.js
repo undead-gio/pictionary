@@ -27,6 +27,7 @@ class StartDialog extends React.Component {
   handleStart = () => {
     var socket = this.props.socket
     console.log(this.state.username)
+    this.props.action(this.state.username)
     socket.emit('start', {username: this.state.username})
   };
   componentDidMount() {

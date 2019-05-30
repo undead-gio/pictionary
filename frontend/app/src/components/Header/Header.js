@@ -50,7 +50,7 @@ const styles = theme => ({
 class Header extends Component {
     state = {
         WinWord: 'Wait..',
-        username: '',
+        username: this.props.username,
         left: false,
         players: [],
         master: '',
@@ -65,14 +65,6 @@ class Header extends Component {
     componentDidMount() {
         var socket = this.props.socket
         var component = this
-        if(this.props.gameIsStart){  
-            socket.on('on', function (usr) {
-                component.setState({
-                    username: usr.myUsername,
-                })
-                console.log('lo username da on '+usr.myUsername)
-            })
-        }
         socket.on('word', function (word) {
             component.setState({
                 WinWord: word.word,
@@ -87,6 +79,11 @@ class Header extends Component {
     }
     componentWillReceiveProps(nextProps){
         var socket = this.props.socket
+        if(nextProps.username !=this.state.username){
+           this.setState({
+               username: nextProps.username
+           })
+        }
         if(nextProps.gameIsStart){
             socket.emit('game counter')
         }
