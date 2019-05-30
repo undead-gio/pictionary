@@ -28,25 +28,26 @@ var socket = io.connect()
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
       master: null,
       username:'',
+      gameIsStart: false,
     };
 
   }
   socketConnection = () => {
 
-    //sostituire msg con la parola da disegnare
-    let receiveUsername = (_usr) => {
-      this.setState({
-        username: _usr,
-      })
-    }
+    var component = this
     socket.emit('connection');
-    socket.on('on', function (usr) {
-      console.log(usr)
-  })
+    socket.on('start', function (usr) {
+      component.setState({
+        gameIsStart: usr.gameIsStart,
+      })
+    })
+    if(this.state.gameIsStart){
+      socket.emit('game counter')
+      console.log('inizia la partita')
+    }
   }
   componentDidMount() {
     this.socketConnection()
@@ -59,19 +60,23 @@ class App extends Component {
           <Dialog
             socket={socket}
             user={1}
+            gameIsStart= {this.state.gameIsStart}
           />
           <Header
             socket={socket}
             username={this.state.username}
             user={1}
+            gameIsStart= {this.state.gameIsStart}
           />
           <Canvas
             socket={socket}
             user={1}
+            gameIsStart= {this.state.gameIsStart}
           />
           <Chat
             socket={socket}
             user={1}
+            gameIsStart= {this.state.gameIsStart}
           />
         </MuiThemeProvider>
       </React.Fragment>
