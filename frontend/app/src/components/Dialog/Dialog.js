@@ -77,11 +77,6 @@ class StartDialog extends React.Component {
         >
           <DialogTitle id="alert-dialog-title">{"Welcome to Soctionary"}</DialogTitle>
           <DialogContent>
-<<<<<<< HEAD
-            <DialogContentText id="alert-dialog-description">
-              Do you want start a game?
-            </DialogContentText>
-=======
 
             <TextField
               label="Choose a gametag"
@@ -91,7 +86,6 @@ class StartDialog extends React.Component {
               }}
             />
 
->>>>>>> bf04a889c4166c934a9eb24be9934f5cc66644c7
           </DialogContent>
           <Lobby allPlayers={this.state.lobbyPlayers}></Lobby>
           <DialogActions>
