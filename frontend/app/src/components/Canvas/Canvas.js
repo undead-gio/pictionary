@@ -4,7 +4,7 @@ class Canvas extends Component {
     super(props);
     console.log(props)
     this.state = {
-        isMaster: this.props.isMaster,
+      isMaster: this.props.isMaster,
     };
 
   }

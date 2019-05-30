@@ -3,13 +3,9 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Lobby from '../Lobby/Lobby';
-import Input from '@material-ui/core/Input';
 import { TextField } from '@material-ui/core';
-
-
 
 class StartDialog extends React.Component {
   state = {
@@ -17,23 +13,15 @@ class StartDialog extends React.Component {
     lobbyPlayers: [],
     username: '',
   };
-
-  socketConnection = () => {
-    var socket = this.props.socket
-
-
-  }
-
   handleStart = () => {
     var socket = this.props.socket
     console.log(this.state.username)
     this.props.action(this.state.username)
-    socket.emit('start', {username: this.state.username})
+    socket.emit('start', { username: this.state.username })
   };
   componentDidMount() {
     var socket = this.props.socket
     var component = this
-    this.socketConnection()
     let handlePlay = (status) => {
       this.setState({
         open: status,
@@ -49,10 +37,8 @@ class StartDialog extends React.Component {
     })
     socket.on('play', function (play) {
       handlePlay(play.status)
-      
+
     })
-
-
     socket.on('on', function (msg = {}) {
       let allPlayer = msg.allPlayers || [];
       component.setState({
@@ -61,14 +47,11 @@ class StartDialog extends React.Component {
       console.log(component.state.lobbyPlayers)
     })
   }
-
   handleChange = event => {
     this.setState({
       username: event.target.value,
     })
   }
-
-
   render() {
     return (
       <div>
@@ -80,24 +63,20 @@ class StartDialog extends React.Component {
         >
           <DialogTitle id="alert-dialog-title">{"Welcome to Soctionary"}</DialogTitle>
           <DialogContent>
-
             <TextField
               label="Choose a gametag"
               inputProps={{
-              'aria-label': 'username',
+                'aria-label': 'username',
               }}
               value={this.state.username}
               onChange={this.handleChange}
             />
-
           </DialogContent>
           <Lobby allPlayers={this.state.lobbyPlayers}></Lobby>
           <DialogActions>
-
-          {/*<Timer
+            {/*<Timer
             socket={this.props.socket}
           />*/}
-
             <Button onClick={this.handleStart} color="primary" autoFocus>
               Start
             </Button>

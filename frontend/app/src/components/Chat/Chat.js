@@ -88,7 +88,6 @@ class MsgReceiver extends Component {
     }
     return (
       <React.Fragment>
-
         <AppBar position="fixed" color="primary" className={this.props.classes.appBar}>
           <div style={deactivate}></div>
           <Toolbar >

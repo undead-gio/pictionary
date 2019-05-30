@@ -8,13 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Chip from '@material-ui/core/Chip';
 import User_list from '../UserList/UserList';
 const styles = theme => ({
@@ -47,7 +40,7 @@ const styles = theme => ({
         position: 'absolute',
         top: '8vh',
         width: '10%',
-        fontSize:'large',
+        fontSize: 'large',
         left: '50%',
         transform: 'translateX(-50%)',
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
@@ -62,7 +55,7 @@ class Header extends Component {
         players: [],
         master: '',
         isWait: true,
-        isMaster:this.props.isMaster,
+        isMaster: this.props.isMaster,
     };
     toggleDrawer = (side, open) => () => {
         this.setState({
@@ -86,29 +79,27 @@ class Header extends Component {
         })
         socket.on('isMaster', function (data) {
             component.setState({
-              isMaster: data.isMaster
+                isMaster: data.isMaster
             })
-          })
+        })
     }
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         var socket = this.props.socket
-        if(nextProps.username !=this.state.username){
-           this.setState({
-               username: nextProps.username
-           })
+        if (nextProps.username !== this.state.username) {
+            this.setState({
+                username: nextProps.username
+            })
         }
-        if(nextProps.gameIsStart){
+        if (nextProps.gameIsStart) {
             socket.emit('game counter')
         }
-      }
+    }
     render() {
         const { classes } = this.props;
         let winWord
         if (this.state.isMaster) {
             winWord = <Chip label={this.state.WinWord} className={classes.chip} color="primary" />
-          } else { }
-        
-        
+        } else { }
         return (
             <React.Fragment>
                 <AppBar position="fixed" color="primary">
@@ -138,7 +129,7 @@ class Header extends Component {
                         onClick={this.toggleDrawer('left', false)}
                         onKeyDown={this.toggleDrawer('left', false)}
                     >
-                        <User_list players={ this.state.players} master={ this.state.master} />
+                        <User_list players={this.state.players} master={this.state.master} />
                     </div>
                 </Drawer>
             </React.Fragment>

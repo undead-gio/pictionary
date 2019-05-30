@@ -30,16 +30,16 @@ class App extends Component {
       master: null,
       username: '',
       gameIsStart: false,
-      isMaster:false,
-      isFinish:false,
+      isMaster: false,
+      isFinish: false,
     };
 
   }
-  saveUsername = (_usr) =>{
+  saveUsername = (_usr) => {
     this.setState({
       username: _usr,
     })
-    console.log('username saved :'+_usr)
+    console.log('username saved :' + _usr)
   }
   socketConnection = () => {
     var component = this
@@ -49,16 +49,16 @@ class App extends Component {
         gameIsStart: usr.gameIsStart,
       })
     })
-    socket.on('isMaster', function(data){
-      console.log('master',data.isMaster)
-        component.setState({
-          isMaster:data.isMaster
-        })
+    socket.on('isMaster', function (data) {
+      console.log('master', data.isMaster)
+      component.setState({
+        isMaster: data.isMaster
+      })
     })
-    socket.on('end', function(data){
-        component.setState({
-          isFinish:data.finish
-        })
+    socket.on('end', function (data) {
+      component.setState({
+        isFinish: data.finish
+      })
     })
     if (this.state.gameIsStart) {
       socket.emit('game counter')
@@ -69,7 +69,7 @@ class App extends Component {
     this.socketConnection()
   }
   render() {
-    if(this.state.isFinish){
+    if (this.state.isFinish) {
       alert('Game Over')
     }
     return (
