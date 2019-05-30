@@ -36,7 +36,7 @@ class App extends Component {
 
   }
   socketConnection = () => {
-    
+
     //sostituire msg con la parola da disegnare
     let receiveUsername = (_usr) => {
       this.setState({
@@ -44,7 +44,7 @@ class App extends Component {
       })
     }
     socket.emit('connection');
-    socket.on('connect', function (usr) {
+    socket.on('on', function (usr) {
       console.log(usr)
   })
   }
