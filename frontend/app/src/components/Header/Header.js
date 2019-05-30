@@ -16,7 +16,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Chip from '@material-ui/core/Chip';
-import { ListItemSecondaryAction } from '@material-ui/core';
 import User_list from '../UserList/UserList';
 const styles = theme => ({
     menuButton: {
