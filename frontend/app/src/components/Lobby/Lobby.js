@@ -43,7 +43,7 @@ class Lobby extends Component {
             <Grid item xs={12} md={12} className={this.props.classes.lobbyRoot}>
             <div className={this.props.classes.userList}>
                 <Typography variant="h6">
-                    Users
+                    Users [{this.props.usersCount}]
                 </Typography>
                     <List>
                         {

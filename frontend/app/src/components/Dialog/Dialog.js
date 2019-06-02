@@ -12,6 +12,7 @@ class StartDialog extends React.Component {
   state = {
     open: true,
     lobbyPlayers: [],
+    totalUsers: '',
     username: '',
   };
   handleStart = () => {
@@ -43,9 +44,11 @@ class StartDialog extends React.Component {
     socket.on('on', function (msg = {}) {
       let allPlayer = msg.allPlayers || [];
       let myUsername = msg.myUsername || [];
+      let userCount = msg.totUser || [];
       component.setState({
         lobbyPlayers: allPlayer,
         username: myUsername,
+        totalUsers: userCount,
       })
       console.log(component.state.lobbyPlayers)
 
@@ -76,7 +79,7 @@ class StartDialog extends React.Component {
               onChange={this.handleChange}
             />
           </DialogContent>
-          <Lobby allPlayers={this.state.lobbyPlayers}></Lobby>
+          <Lobby allPlayers={this.state.lobbyPlayers} usersCount={this.state.totalUsers}></Lobby>
           <DialogActions>
             {/*<Timer
             socket={this.props.socket}
