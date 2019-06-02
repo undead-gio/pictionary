@@ -7,6 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Lobby from '../Lobby/Lobby';
 import { TextField } from '@material-ui/core';
 
+
 class StartDialog extends React.Component {
   state = {
     open: true,

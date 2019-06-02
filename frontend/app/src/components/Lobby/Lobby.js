@@ -20,7 +20,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import { FormHelperText } from '@material-ui/core';
-import { Divider } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import './Lobby.scss'
 
 
 //style for classNames
@@ -57,11 +58,12 @@ class Lobby extends Component {
                                         <ListItemText
                                             primary={player}
                                         />
+                                        <Divider />
                                     </ListItem>
+                                    
                                 )
                             })
-                        }
-                        
+                        }                        
                     </List>
             </div>
             </Grid>
