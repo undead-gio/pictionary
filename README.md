@@ -6,7 +6,7 @@ A web version of famous table game "Pictionary", made in React and Socket.io;
 
 ## Getting Started
 
-These instruction will get you a coppy of the project on your local machine, for developing, testing or just to have fun with your friends! 
+These instruction will get you a copy of the project on your local machine, for developing, testing or just to have fun with your friends! 
 This application is made of a frontend and a back-end, in the following lines you'll see how to make these working together.
 
 ## Download
@@ -19,6 +19,7 @@ If it's your first time cloning a github repository, you can read this [very sim
 
 #### Installing packages
 This program uses third parts libraries as dependencies, so before you launch it, you have to install all of that for both frontend and back-end application.
+
 Assuming you have Node.js installed on your machine*, go to the project directory and move to the "frontend" folder by typing on your terminal:
 ```
 cd frontend/app   
@@ -34,7 +35,7 @@ Once it finishes, go back to the main folder (by typing "cd ..") and repeat this
 cd back-end
 ```
 
-*if you don't have Node.js on your machine, you can [dowload it here](https://nodejs.org/it/download/)
+*if you don't have Node.js on your machine, you can [dowload it here](https://nodejs.org/it/download/)*
 
 
 ## Play
