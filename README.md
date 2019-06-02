@@ -30,9 +30,12 @@ then istall dependencies with Node.js command:
 npm install
 ```
 
-Once it finishes, go back to the main folder (by typing "cd ..") and repeat this step from:
+Once it finishes, open a new terminal and repeat these steps starting from:
 ```
 cd back-end
+```
+```
+npm install
 ```
 
 *if you don't have Node.js on your machine, you can [dowload it here](https://nodejs.org/it/download/)*
