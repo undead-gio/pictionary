@@ -42,10 +42,13 @@ class StartDialog extends React.Component {
     })
     socket.on('on', function (msg = {}) {
       let allPlayer = msg.allPlayers || [];
+      let myUsername = msg.myUsername || [];
       component.setState({
-        lobbyPlayers: allPlayer
+        lobbyPlayers: allPlayer,
+        username: myUsername,
       })
       console.log(component.state.lobbyPlayers)
+
     })
   }
   handleChange = event => {
