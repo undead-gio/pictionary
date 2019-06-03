@@ -131,6 +131,7 @@ io.on('connection', function (socket) {
       // send data of winner user and word
       console.log('you win');
       io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, finish: true, winner: socket.username, winWord: WORDS[randomNumb] });
+      io.sockets.emit('end', { message: "game over", finish: true });
       start = false;
       master = null;
       players = [];
