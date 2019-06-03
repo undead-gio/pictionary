@@ -154,7 +154,7 @@ io.on('connection', function (socket) {
       counter--;
 
       if (counter === 0) {
-        io.sockets.emit('end', { message: "game over", finish: true, winner:'No Winner', master:master,winWord: WORDS[randomNumb] });
+        io.sockets.emit('end', { message: "game over", finish: true, winner:'No One', master:master,winWord: WORDS[randomNumb] });
         start = false;
         master = null;
         players = [];

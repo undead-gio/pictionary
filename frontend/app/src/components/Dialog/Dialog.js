@@ -21,6 +21,9 @@ class StartDialog extends React.Component {
     console.log(this.state.username)
     this.props.action(this.state.username)
     socket.emit('start', { username: this.state.username })
+    this.setState({
+      open:false,
+    })
   };
   componentDidMount() {
     var socket = this.props.socket
@@ -38,10 +41,10 @@ class StartDialog extends React.Component {
     socket.on('start', function (start) {
       handleStartClick(start.statusStart)
     })
-    socket.on('play', function (play) {
+    /*socket.on('play', function (play) {
       handlePlay(play.status)
 
-    })
+    })*/
     socket.on('on', function (msg = {}) {
       let allPlayer = msg.allPlayers || [];
       let myUsername = msg.myUsername || [];
