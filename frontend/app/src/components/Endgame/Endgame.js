@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import { func } from 'prop-types';
+import './Endgame.scss'
 
 class Endgame extends React.Component {
   state = {
@@ -46,22 +47,28 @@ class Endgame extends React.Component {
           aria-labelledby="customized-dialog-title"
           open={this.state.open}
         >
-          <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
+          <DialogTitle id="customized-dialog-title" onClose={this.handleClose} color='secondary'>
             Game Over
           </DialogTitle>
           <DialogContent dividers>
-            <Typography gutterBottom>
-                Congratulations to "{this.state.master}" who drew the word "{this.state.winWord}" and congratulations to "{this.state.winner}" who guessed it.
+          <div className="header-card">
+            <Typography variant="h5" gutterBottom>
+              Winner Word: "{this.state.winWord}".
             </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+                Congratulations to {this.state.winner} for having guessed the awesome drawing by {this.state.master}.
+            </Typography>
+          </div>
             <CardMedia
-          component="img"
-          alt="Trophy"
-          image="https://media1.tenor.com/images/3d357d9c8cd850ab98fe6643aa411f70/tenor.gif?itemid=13253833"
-          title="Trophy"
+              component="img"
+              alt="Trophy"
+              image="https://media.giphy.com/media/9xt1MUZqkneFiWrAAD/giphy.gif"
+              title="Trophy"
+              className="wingif"
         />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} color="primary" fullWidth={true}>
               Restart
             </Button>
           </DialogActions>

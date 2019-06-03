@@ -90,7 +90,7 @@ class StartDialog extends React.Component {
             {/*<Timer
             socket={this.props.socket}
           />*/}
-            <Button onClick={this.handleStart} color="primary" autoFocus>
+            <Button onClick={this.handleStart} color="primary" fullWidth={true} autoFocus>
               Start
             </Button>
           </DialogActions>
