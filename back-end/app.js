@@ -134,7 +134,7 @@ io.on('connection', function (socket) {
       console.log('you win');
       io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, finish: true, winner: socket.username, winWord: WORDS[randomNumb] });
       winnerPlayer=socket.username
-      io.sockets.emit('end', { message: "game over", winner:winnerPlayer, finish: true, });
+      io.sockets.emit('end', { message: "game over", winner:winnerPlayer, finish: true, master:master,winWord: WORDS[randomNumb] });
       start = false;
       master = null;
       players = [];
@@ -154,7 +154,7 @@ io.on('connection', function (socket) {
       counter--;
 
       if (counter === 0) {
-        io.sockets.emit('end', { message: "game over", finish: true, winner:'no winner' });
+        io.sockets.emit('end', { message: "game over", finish: true, winner:'No Winner', master:master,winWord: WORDS[randomNumb] });
         start = false;
         master = null;
         players = [];

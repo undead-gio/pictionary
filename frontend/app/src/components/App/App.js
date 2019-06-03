@@ -4,6 +4,7 @@ import Canvas from '../Canvas/Canvas';
 import Chat from '../Chat/Chat';
 import Dialog from '../Dialog/Dialog'
 import Header from '../Header/Header';
+import Endgame from '../Endgame/Endgame';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './App.scss'
 
@@ -16,6 +17,13 @@ const theme = createMuiTheme({
     MuiSnackbar: {
       anchorOriginBottomRight: {
         marginBottom: '10%',
+      }
+    },
+    MuiCardMedia:{
+      media:{
+        width: '70%',
+        height: '70%',
+        margin: 'auto',
       }
     }
   }
@@ -70,9 +78,6 @@ class App extends Component {
     this.socketConnection()
   }
   render() {
-    if (this.state.isFinish) {
-      alert('Game Over :'+this.state.winnerPlayer)
-    }
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
@@ -81,6 +86,9 @@ class App extends Component {
             socket={socket}
             action={this.saveUsername.bind(this)}
             gameIsStart={this.state.gameIsStart}
+          />
+          <Endgame 
+            socket={socket}
           />
           <Header
             socket={socket}
