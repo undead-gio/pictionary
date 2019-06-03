@@ -57,7 +57,8 @@ class App extends Component {
     })
     socket.on('end', function (data) {
       component.setState({
-        isFinish: data.finish
+        isFinish: data.finish,
+        winnerPlayer: data.winner,
       })
     })
     if (this.state.gameIsStart) {
@@ -70,7 +71,7 @@ class App extends Component {
   }
   render() {
     if (this.state.isFinish) {
-      alert('Game Over')
+      alert('Game Over :'+this.state.winnerPlayer)
     }
     return (
       <React.Fragment>

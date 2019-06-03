@@ -39,6 +39,8 @@ var line_history = [], // array of all lines drawn
     points = [], // obj for define name and points
     players = []; // array of other players
 
+let winnerPlayer = '' //I will save the username of the winner
+
 // add directory with our static files
 app.use(express.static(__dirname + '/public'));
 console.log("Server running on 127.0.0.1:8080");
@@ -131,7 +133,8 @@ io.on('connection', function (socket) {
       // send data of winner user and word
       console.log('you win');
       io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, finish: true, winner: socket.username, winWord: WORDS[randomNumb] });
-      io.sockets.emit('end', { message: "game over", finish: true });
+      winnerPlayer=socket.username
+      io.sockets.emit('end', { message: "game over", winner:winnerPlayer, finish: true, });
       start = false;
       master = null;
       players = [];
@@ -151,7 +154,7 @@ io.on('connection', function (socket) {
       counter--;
 
       if (counter === 0) {
-        io.sockets.emit('end', { message: "game over", finish: true });
+        io.sockets.emit('end', { message: "game over", finish: true, winner:'no winner' });
         start = false;
         master = null;
         players = [];
