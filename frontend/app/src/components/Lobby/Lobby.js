@@ -15,34 +15,61 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import FolderIcon from '@material-ui/icons/Folder';
+import PersonIcon from '@material-ui/icons/Person';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Fab from '@material-ui/core/Fab';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import { FormHelperText } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import './Lobby.scss'
+
+
+//style for classNames
+const styles = theme => ({
+    lobbyRoot: {
+        display: 'flex',
+        height: window.innerHeight,
+    },
+    userList: {
+        width: 100,
+        zIndex: '10',
+        margin: 'auto',
+    },
+});
 
 class Lobby extends Component {
     render() {
         return (
-            <Grid item xs={12} md={6}>
-                <Typography variant="h6" className={this.props.classes.title}>
-                    Connected users
+            <Grid item xs={12} md={12} className={this.props.classes.lobbyRoot}>
+            <div className={this.props.classes.userList}>
+                <Typography variant="h6">
+                    Users [{this.props.usersCount}]
                 </Typography>
-                <div className={this.props.classes.demo}>
-                    <List dense>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <FolderIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary="nome utente"
+                    <List>
+                        {
+                            this.props.allPlayers.map(function(player) {
+                                return (
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <PersonIcon />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={player}
+                                        />
+                                        <Divider />
+                                    </ListItem>
                                     
-                                />
-                            </ListItem>,
-    
+                                )
+                            })
+                        }                        
                     </List>
-                </div>
+            </div>
             </Grid>
         );
     }
 }
+
+export default withStyles(styles) (Lobby);
         

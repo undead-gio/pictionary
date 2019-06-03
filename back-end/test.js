@@ -8,7 +8,8 @@ var io = require('socket.io')(http);
 
 
 var line_history = [],
-    randomNumb;
+    randomNumb,
+    start = false;
 
 //Array of words
 var WORDS = [
@@ -39,11 +40,22 @@ app.get('/', function(req, res){
 
 // event start for new incoming connection
 io.on('connection', function (socket){
+  if( start ){
+    socket.emit('viewer', {})
+  }
 
+  socket.user.role = "waiter";
+  // list of connected user
+  var totUser = io.engine.clientsCount;
+  // list of connected user
   let connectedUsersArray = Object.keys(io.sockets.sockets);
-  socket._data = {};
-  socket._data.username = NAME[Math.floor(Math.random() * NAME.length];
-  socket.broadcast.emit('connect', { totUser: connectedUsersArray.length });
+  // array of all player
+  let allPlayer = connectedUsersArray.map((user) => user.username)
+  // assign random username to new connected user
+  socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
+
+  // emit with socket the list of connected user
+  socket.broadcast.emit('connect', { totUser: connectedUsersArray.lenght, allUser: allPlayer });
 
   // event start when someone disconnect
   socket.on('disconnect', function() {
@@ -58,12 +70,13 @@ io.on('connection', function (socket){
   // event start when recive a message from frontEnd
   socket.on('start', function (data) {
     var master = connectedUsersArray[Math.floor(Math.Random() * totalUsers)];
-    var numWords = WORDS.length();  // lennght of array words
+    var numWords = WORDS.length();  // lenght of array words
     randomNumb = Math.floor(Math.random() * numWords);
-    io.sockets.emit('start', {  master: master });
-    io.sockets.sockets[master].emit('word', { word: WORDS[randomNumb] });
+    io.sockets.emit('start', { username: socket.username });
     setTimeout(function () {
-      io.sockets.emit('play');
+      io.sockets.emit('play', {  master: master });
+      io.sockets.sockets[master].emit('word', { word: WORDS[randomNumb] });
+      start = true;
     }, 5000);
   });
 
@@ -73,14 +86,14 @@ io.on('connection', function (socket){
   });
 
   // add handler for message type "chat".
-  socket.on('chat', function (data) {
-    if( data.message == WORDS[randomNumb] ){
+  socket.on('chat message', function (data) {
+    if( data == WORDS[randomNumb] ){
       // send data of winner user and word
-      io.sockets.emit('chat', { type: "success", win: true, winner: socket.username, winWord: WORDS[randomNumb] })
+      io.sockets.emit('chat message', { type: "success", win: true, winner: socket.username, winWord: WORDS[randomNumb] })
     }
     else {
       // send message to all clients
-      io.sockets.emit('chat', { type: "info", message: data.message, username: socket.username })
+      io.sockets.emit('chat message', { type: "info", message: data, username: socket.username })
     }
   });
 
