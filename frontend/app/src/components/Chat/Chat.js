@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SnackbarProvider, withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
+import PropTypes, { nominalTypeHack } from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
@@ -78,19 +78,14 @@ class MsgReceiver extends Component {
     let deactivate
     if (this.state.isMaster) {
       deactivate = {
-        height: '100%',
-        background: '#9e9e9ebf',
-        width: '100%',
-        position: 'absolute',
-        bottom: '0',
-        zIndex: '9999',
+       display: 'none',
       };
     }
     return (
       <React.Fragment>
         <AppBar position="fixed" color="primary" className={this.props.classes.appBar}>
-          <div style={deactivate}></div>
-          <Toolbar >
+          
+          <Toolbar style={deactivate}>
             <TextField
               id="outlined-full-width"
               label="Guess the draw"
