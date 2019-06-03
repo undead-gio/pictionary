@@ -51,7 +51,7 @@ class Endgame extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-                Congratulations to "{this.state.master}" who drew the word "{this.state.winWord}" and congratulations to "{this.state.winWord}" who guessed it.
+                Congratulations to "{this.state.master}" who drew the word "{this.state.winWord}" and congratulations to "{this.state.winner}" who guessed it.
             </Typography>
             <CardMedia
           component="img"
