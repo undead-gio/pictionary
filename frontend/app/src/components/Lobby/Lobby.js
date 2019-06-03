@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import FolderIcon from '@material-ui/icons/Folder';
+import PersonIcon from '@material-ui/icons/Person';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -52,7 +52,7 @@ class Lobby extends Component {
                                     <ListItem>
                                         <ListItemAvatar>
                                             <Avatar>
-                                                <FolderIcon />
+                                                <PersonIcon />
                                             </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText
