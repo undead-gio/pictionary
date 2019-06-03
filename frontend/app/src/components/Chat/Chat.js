@@ -13,6 +13,8 @@ const styles = theme => ({
   appBar: {
     top: 'auto',
     bottom: 0,
+    boxShadow: 'none',
+    backgroundColor: '#F2ECD6'
   },
   textBar: {
     width: '100%',
@@ -85,8 +87,8 @@ class MsgReceiver extends Component {
       <React.Fragment>
         <AppBar position="fixed" color="primary" className={this.props.classes.appBar}>
           
-          <Toolbar style={deactivate}>
-            <TextField
+          <Toolbar className="chat-toolbar" style={deactivate}>
+            <TextField 
               id="outlined-full-width"
               label="Guess the draw"
               style={{ margin: 8 }}
@@ -99,7 +101,7 @@ class MsgReceiver extends Component {
               }}
             />
             <div>
-              <Fab size="medium" color="secondary" aria-label="Add" onClick={this.handleClick}>
+              <Fab size="medium" color="secondary" aria-label="Add" onClick={this.handleClick} style={deactivate}>
                 <SendIcon />
               </Fab>
             </div>

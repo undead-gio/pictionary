@@ -68,7 +68,7 @@ class Endgame extends React.Component {
         />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary" fullWidth={true}>
+            <Button onClick={this.handleClose} variant="text" color="primary" fullWidth={true}>
               Restart
             </Button>
           </DialogActions>

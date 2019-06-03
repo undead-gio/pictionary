@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './canvas.scss'
+
 class Canvas extends Component {
   constructor(props) {
     super(props);

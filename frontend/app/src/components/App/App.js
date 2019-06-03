@@ -10,8 +10,9 @@ import './App.scss'
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: '#00bcd4' },
-    secondary: { main: '#00e676' },
+    primary: { main: '#BA220F' },
+    secondary: { main: '#ECA400' },
+    tertiary: { main: '#F2ECD6' }
   },
   overrides: {
     MuiSnackbar: {
@@ -24,6 +25,7 @@ const theme = createMuiTheme({
         width: '70%',
         height: '70%',
         margin: 'auto',
+        backgroundColor: '#F2ECD6',
       }
     }
   }
