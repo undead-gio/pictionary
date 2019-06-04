@@ -47,9 +47,6 @@ class Endgame extends React.Component {
           aria-labelledby="customized-dialog-title"
           open={this.state.open}
         >
-          <DialogTitle id="customized-dialog-title" onClose={this.handleClose} color='secondary'>
-            Game Over
-          </DialogTitle>
           <DialogContent dividers>
           <div className="header-card">
             <Typography variant="h5" gutterBottom>
