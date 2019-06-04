@@ -33,7 +33,8 @@ var NAMES = [
 
 var randomNumb, // random numb for define random game word
     start = false, // boolean to check if the game is start or not
-    master; // name of master player
+    master,
+    result; // name of master player
 
 var line_history = [], // array of all lines drawn
     players = []; // array of other players
@@ -49,7 +50,6 @@ io.on('connection', function (socket) {
 
   // define a random username on start of conection
   socket.username = makeid(7);
-  console.log(socket.username);
   // list of all connect socket
   let connectedUsers = Object.values(io.sockets.sockets);
   // array of all players
@@ -75,6 +75,8 @@ io.on('connection', function (socket) {
 
       // define new master
       master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
+      // filter the array of players and delet in this array the master name
+      players = allPlayers.filter((player) => player !== master);
       // emit new data of master and players
       io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
     }
@@ -116,7 +118,7 @@ io.on('connection', function (socket) {
          counter--;
 
          // when the counter arrive to 0 the match finish and clean all the variable
-         if (counter === 0) {
+         if ( counter === 0 || result ) {
 
            // emit on end the information of end match
            io.sockets.emit('end', { message: "game over", finish: true, winner:'No One', master:master,winWord: WORDS[randomNumb] });
@@ -124,6 +126,7 @@ io.on('connection', function (socket) {
            master = null;
            players = [];
            line_history=[];
+           result = null;
            clearInterval(startCountdown);
          }
        }, 1000);
@@ -153,9 +156,14 @@ io.on('connection', function (socket) {
 
   // add handler for message type "chat".
   socket.on('chat message', function (data) {
-
+    // lower case che message
+    var dataLow = data.toLowerCase();
+    result = null;
+    // check if string contains substring
+    result = dataLow.includes(WORDS[randomNumb]) > -1;
+    console.log(result);
     // check if the message is the win word
-    if( data == WORDS[randomNumb] ){
+    if( result ){
       // send data of winner user and word
       console.log('you win');
       io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, finish: true, winner: socket.username, winWord: WORDS[randomNumb] });
@@ -183,24 +191,5 @@ io.on('connection', function (socket) {
     }
     return result;
   }
-
-  /*socket.on('game counter', function (data) {
-    var counter = 100;
-    var startCountdown = setInterval(function(){
-
-      io.sockets.emit('counterGame', { counterGame: counter } );
-      counter--;
-
-      if (counter === 0) {
-        io.sockets.emit('end', { message: "game over", finish: true, winner:'No One', master:master,winWord: WORDS[randomNumb] });
-        start = false;
-        master = null;
-        players = [];
-        line_history=[];
-        clearInterval(startCountdown);
-      }
-
-    }, 1000);
-  })*/
 
 });
