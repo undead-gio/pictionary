@@ -56,7 +56,7 @@ io.on('connection', function (socket) {
 
   // emit with socket the list of connected user
   io.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start });
-
+  
   // first send the history to the new client
   for (var i in line_history) {
     socket.emit('draw', { line: line_history[i] } );
@@ -70,6 +70,8 @@ io.on('connection', function (socket) {
       allPlayers = connectedUsers.map((socket) => socket.username);
       // assigns the new master
       master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
+      // filter the array of players and delet in this array the master name
+      players = allPlayers.filter((player) => player !== master);
       // emit new data of master and players
       io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
     }
@@ -81,7 +83,7 @@ io.on('connection', function (socket) {
     // filter the array of players and delet in this array the master name
     players = allPlayers.filter((player) => player !== master);
     // emit the new list of users connected
-    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players });
+    io.sockets.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players });
     console.log('disconnected ' + socket.username);
    });
 
