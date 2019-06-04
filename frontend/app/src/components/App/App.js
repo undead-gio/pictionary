@@ -10,8 +10,8 @@ import './App.scss'
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: '#BA220F' },
-    secondary: { main: '#ECA400' },
+    primary: { main: '#725AC1' },
+    secondary: { main: '#8D86C9' },
     tertiary: { main: '#F2ECD6' }
   },
   overrides: {
@@ -25,7 +25,7 @@ const theme = createMuiTheme({
         width: '70%',
         height: '70%',
         margin: 'auto',
-        backgroundColor: '#F2ECD6',
+        backgroundColor: '#FFFFFB',
       }
     }
   }

@@ -81,7 +81,7 @@ io.on('connection', function (socket) {
     // filter the array of players and delet in this array the master name
     players = allPlayers.filter((player) => player !== master);
     // emit the new list of users connected
-    io.sockets.emit('disconnect', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players });
+    io.sockets.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, master: master, players: players });
     console.log('disconnected ' + socket.username);
    });
 

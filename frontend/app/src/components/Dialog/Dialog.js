@@ -80,7 +80,7 @@ class StartDialog extends React.Component {
                 inputProps={{
                   'aria-label': 'username',
                 }}
-                value={this.state.username}
+                
                 onChange={this.handleChange}
               />
             </DialogContent>
