@@ -33,11 +33,13 @@ var NAMES = [
 
 var randomNumb, // random numb for define random game word
     start = false, // boolean to check if the game is start or not
-    master; // name of master player
+    master,
+    result; // name of master player
 
 var line_history = [], // array of all lines drawn
-    points = [], // obj for define name and points
     players = []; // array of other players
+
+var winnerPlayer = ''; // save the username of the winner
 
 // add directory with our static files
 app.use(express.static(__dirname + '/public'));
@@ -47,8 +49,8 @@ console.log("Server running on 127.0.0.1:8080");
 io.on('connection', function (socket) {
 
   // define a random username on start of conection
-  socket.username = NAMES[Math.floor(Math.random() * NAMES.length)];
-
+  socket.username = makeid(7);
+  console.log(socket.username);
   // list of all connect socket
   let connectedUsers = Object.values(io.sockets.sockets);
   // array of all players
@@ -56,7 +58,7 @@ io.on('connection', function (socket) {
 
   // emit with socket the list of connected user
   io.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start });
-  
+
   // first send the history to the new client
   for (var i in line_history) {
     socket.emit('draw', { line: line_history[i] } );
@@ -64,22 +66,21 @@ io.on('connection', function (socket) {
 
   // event start when someone disconnect
   socket.on('disconnect', function(data) {
+
+    // when a user disconnects I will be emitting the new total user
+    connectedUsers = Object.values(io.sockets.sockets);
+    // array of all player
+    allPlayers = connectedUsers.map((socket) => socket.username);
     // on disconnection of user check if he is the master player
     if(socket.username == master){
-      connectedUsers = Object.values(io.sockets.sockets);
-      allPlayers = connectedUsers.map((socket) => socket.username);
-      // assigns the new master
+
+      // define new master
       master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
       // filter the array of players and delet in this array the master name
       players = allPlayers.filter((player) => player !== master);
       // emit new data of master and players
       io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
     }
-
-    // when a user disconnects I will be emitting the new total user
-    connectedUsers = Object.values(io.sockets.sockets);
-    // array of all player
-    allPlayers = connectedUsers.map((socket) => socket.username);
     // filter the array of players and delet in this array the master name
     players = allPlayers.filter((player) => player !== master);
     // emit the new list of users connected
@@ -102,17 +103,44 @@ io.on('connection', function (socket) {
      if(!start){
        // defined random word for play
        randomNumb = Math.floor(Math.random() * WORDS.length);
-       master = null;
-       master = allPlayers[Math.floor(Math.random() * allPlayers.length)];
-       start = true;
+       //master = null; // clean variable master
+       master = socket.username; // assigns the master to the first that play start
+       start = true; // set start true
+       // emit socket start with username of starter player and a boolean to define the start of match
        io.sockets.emit('start', { username: socket.username, gameIsStart: true } );
+
+       // start counter when the first player press start
+       var counter = 100;
+       var startCountdown = setInterval(function(){
+
+         // emit every the seconds a gamecounter
+         io.sockets.emit('counterGame', { counterGame: counter } );
+         // decreases counter variable every the seconds
+         counter--;
+
+         // when the counter arrive to 0 the match finish and clean all the variable
+         if ( counter === 0 || result ) {
+
+           // emit on end the information of end match
+           io.sockets.emit('end', { message: "game over", finish: true, winner:'No One', master:master,winWord: WORDS[randomNumb] });
+           start = false;
+           master = null;
+           players = [];
+           line_history=[];
+           result = null;
+           clearInterval(startCountdown);
+         }
+       }, 1000);
      }
 
+     // filter the array of players and delet in this array the master name
      players = allPlayers.filter((player) => player !== master);
+     // emit on play master, players and bool to close lobby of player that press start
      io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
+     // emit on word the random word for game
      io.sockets.emit('word', { word: WORDS[randomNumb] });
 
-    //pass to frontend the type of player
+    // pass to frontend the type of player
     if(socket.username== master){
       socket.emit('isMaster',{isMaster:true})
     } else{ socket.emit('isMaster',{isMaster:false}) }
@@ -129,10 +157,20 @@ io.on('connection', function (socket) {
 
   // add handler for message type "chat".
   socket.on('chat message', function (data) {
-    if( data == WORDS[randomNumb] ){
+    // lower case che message
+    var dataLow = data.toLowerCase();
+    result = null;
+    // check if string contains substring
+    result = dataLow.includes(WORDS[randomNumb]) > -1;
+    console.log(result);
+    // check if the message is the win word
+    if( result ){
       // send data of winner user and word
       console.log('you win');
       io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, finish: true, winner: socket.username, winWord: WORDS[randomNumb] });
+      winnerPlayer=socket.username;
+      io.sockets.emit('end', { message: "game over", winner:winnerPlayer, finish: true, master:master,winWord: WORDS[randomNumb] });
+      // clean all the variable for new game
       start = false;
       master = null;
       players = [];
@@ -144,23 +182,15 @@ io.on('connection', function (socket) {
     }
   });
 
-  socket.on('game counter', function (data) {
-    var counter = 100;
-    var startCountdown = setInterval(function(){
-
-      io.sockets.emit('counterGame', { counterGame: counter } );
-      counter--;
-
-      if (counter === 0) {
-        io.sockets.emit('end', { message: "game over", finish: true });
-        start = false;
-        master = null;
-        players = [];
-        line_history=[];
-        clearInterval(startCountdown);
-      }
-
-    }, 1000);
-  })
+  // function to generate random string
+  function makeid(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
 
 });
