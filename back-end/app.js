@@ -54,10 +54,12 @@ io.on('connection', function (socket) {
   let connectedUsers = Object.values(io.sockets.sockets);
   // array of all players
   let allPlayers = connectedUsers.map((socket) => socket.username);
+  // filter the array of players and delet in this array the master name
+  players = allPlayers.filter((player) => player !== master);
 
   // emit with socket the list of connected user
-  io.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start });
-  
+  io.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start, master: master, players: players });
+
   // first send the history to the new client
   for (var i in line_history) {
     socket.emit('draw', { line: line_history[i] } );
@@ -107,7 +109,9 @@ io.on('connection', function (socket) {
        start = true; // set start true
        // emit socket start with username of starter player and a boolean to define the start of match
        io.sockets.emit('start', { username: socket.username, gameIsStart: true } );
-
+       // filter the array of players and delet in this array the master name
+       players = [];
+       io.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start, master: master, players: players });
        // start counter when the first player press start
        var counter = 100;
        var startCountdown = setInterval(function(){
@@ -131,16 +135,20 @@ io.on('connection', function (socket) {
          }
        }, 1000);
      }
+     else{
+       // filter the array of players and delet in this array the master name
+       players = allPlayers.filter((player) => player !== master);
+       io.emit('on', { totUser: connectedUsers.length, allPlayers: allPlayers, myUsername: socket.username, start: start, master: master, players: players });
+     }
 
-     // filter the array of players and delet in this array the master name
-     players = allPlayers.filter((player) => player !== master);
+
      // emit on play master, players and bool to close lobby of player that press start
      io.sockets.emit('play', {  master: master, players: players, dialogIsOpen: false });
      // emit on word the random word for game
      io.sockets.emit('word', { word: WORDS[randomNumb] });
 
     // pass to frontend the type of player
-    if(socket.username== master){
+    if(socket.username == master){
       socket.emit('isMaster',{isMaster:true})
     } else{ socket.emit('isMaster',{isMaster:false}) }
 
@@ -158,9 +166,9 @@ io.on('connection', function (socket) {
   socket.on('chat message', function (data) {
     // lower case che message
     var dataLow = data.toLowerCase();
-    result = null;
+
     // check if string contains substring
-    result = dataLow.includes(WORDS[randomNumb]) > -1;
+    result = dataLow.indexOf(WORDS[randomNumb]) > -1;
     console.log(result);
     // check if the message is the win word
     if( result ){

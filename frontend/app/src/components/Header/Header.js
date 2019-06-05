@@ -73,8 +73,13 @@ class Header extends Component {
         })
         socket.on('play', function (play) {
             component.setState({
-                players: play.players,
+                //players: play.players,
                 master: play.master,
+            })
+        })
+        socket.on('on', function (data) {
+            component.setState({
+                players: data.players,
             })
         })
         socket.on('isMaster', function (data) {
