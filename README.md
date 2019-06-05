@@ -51,7 +51,7 @@ Move to the frontend/app folder, as shown before, and type on your command line:
 npm start
 ```
 
-Your browser will open on the lobby page, but to connect yourself on the game, start the server too.
+Your browser will open on the lobby page, but to connect to the game, start the server.
 
 #### Launch back-end
 
@@ -90,8 +90,9 @@ Teir aim is to guess the word that the Master is drawing by the chat, in less ti
 #### Build with
 Here the list of frameworks we used to build this app.
 
-* [React](https://reactjs.org/) - A JavaScript library for building user interfaces
-* [Socket.io](https://socket.io/) - Real-time, bidirectional and event-based communication 
+* [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
+* [Material-ui](https://material-ui.com/) - React components for faster and easier web development.
+* [Socket.io](https://socket.io/) - Real-time, bidirectional and event-based communication.
 
 ## Autors
 
