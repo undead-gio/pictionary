@@ -30,11 +30,15 @@ class Endgame extends React.Component {
           open: false,
         })
     })
+    socket.on('on', function (data){
+      component.setState({
+        master: data.master,
+      })
+    })
     socket.on('end', function (data) {
         component.setState({
           open: data.finish,
           winner: data.winner,
-          master: data.master,
           winWord:data.winWord
         })
     })
