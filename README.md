@@ -93,6 +93,7 @@ Here the list of frameworks we used to build this app.
 * [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
 * [Material-ui](https://material-ui.com/) - React components for faster and easier web development.
 * [Socket.io](https://socket.io/) - Real-time, bidirectional and event-based communication.
+* [Express.js](https://expressjs.com/) - Minimalist web framework for Node.js
 
 ## Autors
 
