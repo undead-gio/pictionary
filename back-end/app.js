@@ -122,10 +122,20 @@ io.on('connection', function (socket) {
          counter--;
 
          // when the counter arrive to 0 the match finish and clean all the variable
-         if ( counter === 0 || result ) {
+         if ( counter === 0 ) {
 
            // emit on end the information of end match
-           io.sockets.emit('end', { message: "game over", finish: true, winner:'No One', master:master,winWord: WORDS[randomNumb] });
+           io.sockets.emit('end', { message: "game over", finish: true, winner:'No One', master:master, winWord: WORDS[randomNumb] });
+           start = false;
+           master = null;
+           players = [];
+           line_history=[];
+           result = null;
+           clearInterval(startCountdown);
+         }
+
+         if( result ){
+           io.sockets.emit('end', { message: "game over", winner:winnerPlayer, finish: true, master:master, winWord: WORDS[randomNumb] });
            start = false;
            master = null;
            players = [];
@@ -176,8 +186,9 @@ io.on('connection', function (socket) {
       console.log('you win');
       io.sockets.emit('chat message', { type: "success", message: data, username: socket.username, finish: true, winner: socket.username, winWord: WORDS[randomNumb] });
       winnerPlayer=socket.username;
-      io.sockets.emit('end', { message: "game over", winner:winnerPlayer, finish: true, master:master,winWord: WORDS[randomNumb] });
+      io.sockets.emit('end', { message: "game over", winner:winnerPlayer, finish: true, master:master, winWord: WORDS[randomNumb] });
       // clean all the variable for new game
+      console.log(winnerPlayer)
       start = false;
       master = null;
       players = [];
